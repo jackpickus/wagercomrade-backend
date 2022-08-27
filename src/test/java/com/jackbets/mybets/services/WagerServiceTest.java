@@ -1,5 +1,12 @@
 package com.jackbets.mybets.services;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
@@ -7,14 +14,14 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.jackbets.mybets.status.Status;
 import com.jackbets.mybets.wager.Wager;
+import com.jackbets.mybets.wager.WagerNotFoundException;
 import com.jackbets.mybets.wager.WagerRepository;
 import com.jackbets.mybets.wager.WagerService;
 
@@ -24,9 +31,12 @@ class WagerServiceTest {
     @Mock
     private WagerRepository wagerRepository;
 
-    @Autowired
     @InjectMocks
     private WagerService wagerService;
+
+    @Mock
+    private WagerService wagerService2;
+
     private Wager wager1;
     private Wager wager2;
     List<Wager> wagerList;
