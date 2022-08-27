@@ -100,5 +100,12 @@ class WagerServiceTest {
 
     }
 
+    @Test
+    public void givenIdAndStatusUpdateWager() {
+        wagerRepository.save(wager1);
+        Long wager1Id = wager1.getId();
+        wagerService2.updateWager(wager1Id, Status.WON);
+        verify(wagerService2, times(1)).updateWager(wager1.getId(), Status.WON);
+    }
 
 }
