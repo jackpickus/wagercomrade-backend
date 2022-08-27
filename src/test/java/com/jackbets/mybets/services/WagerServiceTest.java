@@ -94,8 +94,10 @@ class WagerServiceTest {
     public void givenIdThenShouldDeleteWager() {
         wagerRepository.save(wager1);
         Long wager1Id = wager1.getId();
-        doThrow(new WagerNotFoundException(wager1Id)).when(wagerService2).deleteWager(wager1Id);
-        verify(wagerRepository, times(1)).findAll();
+        wagerService2.deleteWager(wager1Id);
+        verify(wagerService2, times(1)).deleteWager(wager1Id);
+        verify(wagerRepository, times(1)).save(wager1);
+
     }
 
 
