@@ -61,4 +61,32 @@ class WagerServiceTest {
         wagerList = null;
     }
 
+    @Test
+    public void givenWagerToAddShouldReturnAddedWager() {
+        when(wagerRepository.save(any())).thenReturn(wager1);
+        wagerService.addNewWager(wager1);
+        verify(wagerRepository, times(1)).save(any());
+    }
+
+    @Test
+    public void givenGetAllWagersShouldReturnListOfAllUsers() {
+        wagerRepository.save(wager1);
+        wagerRepository.save(wager2);
+
+        when(wagerRepository.findAll()).thenReturn(wagerList);
+        List<Wager> wagerList2 = wagerService.getWagers();
+        assertEquals(wagerList2, wagerList);
+        verify(wagerRepository, times(1)).save(wager1);
+        verify(wagerRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void givenIdThenShouldDeleteWager() {
+        wagerRepository.save(wager1);
+        Long wager1Id = wager1.getId();
+        doThrow(new WagerNotFoundException(wager1Id)).when(wagerService2).deleteWager(wager1Id);
+        verify(wagerRepository, times(1)).findAll();
+    }
+
+
 }
