@@ -46,6 +46,11 @@ class WagerServiceTest {
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
                 50);
+
+        // id must be set manually
+        wager1.setId(1L);
+        wager2.setId(2L);
+
         wagerList.add(wager1);
         wagerList.add(wager2);
     }
