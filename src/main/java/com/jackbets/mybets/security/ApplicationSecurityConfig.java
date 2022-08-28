@@ -20,5 +20,19 @@ public class ApplicationSecurityConfig {
             .httpBasic(withDefaults());
         return http.build();
     }
+
+    @Bean
+    protected UserDetailsService userDetailsService() {
+        UserDetails admin = User.builder()
+            .username("admin")
+            .password(passwordEncoder.encode("setOverSet800"))
+            .roles("ADMIN") // ROLE_ADMIN
+            .build();
+
+
+        return new InMemoryUserDetailsManager(
+            admin
+        );
+    }
     
 }
