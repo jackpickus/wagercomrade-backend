@@ -40,7 +40,7 @@ public class ApplicationSecurityConfig {
         UserDetails admin = User.builder()
             .username("admin")
             .password(passwordEncoder.encode("setOverSet800"))
-            .roles("ADMIN") // ROLE_ADMIN
+            .roles(ApplicationUserRole.ADMIN.name()) // ROLE_ADMIN
             .build();
 
 
