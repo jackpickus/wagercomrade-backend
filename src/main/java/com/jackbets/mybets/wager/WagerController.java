@@ -32,17 +32,17 @@ public class WagerController {
         return wagerService.getWagers();
     }
 
-    @PostMapping
+    @PostMapping("management")
     public Response placeNewWager(@RequestBody Wager wager) {
         return wagerService.addNewWager(wager);
     }
 
-    @DeleteMapping("/{wagerId}")
+    @DeleteMapping("management/{wagerId}")
     public void deleteWager(@PathVariable("wagerId") Long wagerId) {
         wagerService.deleteWager(wagerId);
     }
 
-    @PutMapping(path = "/{wagerId}")
+    @PutMapping(path = "management/{wagerId}")
     public void updateWager(@PathVariable("wagerId") Long wagerId, @RequestParam("status") Status status) {
         wagerService.updateWager(wagerId, status);
     }
