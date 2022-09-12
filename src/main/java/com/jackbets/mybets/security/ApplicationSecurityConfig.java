@@ -30,7 +30,7 @@ public class ApplicationSecurityConfig {
         http
             .csrf().disable()
             .authorizeHttpRequests((authz) -> authz
-                .antMatchers("/api/v1/wager").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .anyRequest().authenticated()
             )
             .httpBasic(withDefaults());
