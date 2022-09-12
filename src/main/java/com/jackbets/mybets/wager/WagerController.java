@@ -2,6 +2,7 @@ package com.jackbets.mybets.wager;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,17 +33,20 @@ public class WagerController {
         return wagerService.getWagers();
     }
 
-    @PostMapping("management")
+    @PostMapping()
+    @PreAuthorize("hasAuthority('bet:write')")
     public Response placeNewWager(@RequestBody Wager wager) {
         return wagerService.addNewWager(wager);
     }
 
-    @DeleteMapping("management/{wagerId}")
+    @DeleteMapping("{wagerId}")
+    @PreAuthorize("hasAuthority('bet:write')")
     public void deleteWager(@PathVariable("wagerId") Long wagerId) {
         wagerService.deleteWager(wagerId);
     }
 
-    @PutMapping(path = "management/{wagerId}")
+    @PutMapping(path = "/{wagerId}")
+    @PreAuthorize("hasAuthority('bet:write')")
     public void updateWager(@PathVariable("wagerId") Long wagerId, @RequestParam("status") Status status) {
         wagerService.updateWager(wagerId, status);
     }
