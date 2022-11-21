@@ -33,7 +33,7 @@ public class ApplicationSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .csrf().csrfTokenRepository(new CookieCsrfTokenRepository())
             .and()
             .authorizeHttpRequests((authz) -> authz
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
