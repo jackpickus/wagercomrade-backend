@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Jack Bets Money</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+   <div class="container">
+    <h1>Wagers</h1>
+    <p>Lets make some money!</p>
+    <table>
+        <thead>
+            <th>Wager</th>
+            <th>Odds</th>
+            <th>Units</th>
+            <th>To Win</th>
+            <th>Status</th>
+            <th>Time Placed</th>
+        </thead>
+        <tbody>
+            <tr th:each="wager: ${wagers}">
+                <td th:text="${wager.theBet}" />
+                <td th:text="${wager.theOdds}" />
+                <td th:text="${wager.units}" />
+                <td th:text="${wager.toWin}" />
+                <td th:text="${wager.status}" />
+                <td th:text="${wager.timePlaced}" />
+            </tr>
+        </tbody>
+    </table>
+   </div> 
+</body>
+</html>
