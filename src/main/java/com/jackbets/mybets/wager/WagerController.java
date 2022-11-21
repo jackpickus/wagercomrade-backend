@@ -18,7 +18,6 @@ import com.jackbets.mybets.response.Response;
 import com.jackbets.mybets.status.Status;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "api/v1/wager")
 public class WagerController {
 
