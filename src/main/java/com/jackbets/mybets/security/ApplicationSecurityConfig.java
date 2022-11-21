@@ -39,7 +39,7 @@ public class ApplicationSecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .anyRequest().authenticated()
             )
-            .httpBasic(withDefaults());
+            .formLogin(withDefaults());
         return http.build();
     }
 
