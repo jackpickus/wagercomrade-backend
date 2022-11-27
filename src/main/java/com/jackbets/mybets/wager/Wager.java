@@ -42,4 +42,26 @@ public class Wager {
         this.toWin = toWin;
     }
 
+    double calcToWin(double units, int odds) {
+        double amount;
+        if (units < 0.1) {
+            log.error("units must be greater than 0.1");
+            return -1;
+        } else if (odds < 100 && odds > -100) {
+            log.error("odds must be greater than 99 or less than -100");
+            return -1;
+        }
+    
+        if (odds >= 100) {
+            // wager was on underdog
+            amount = units * (odds / 100);
+        } else {
+            // wager was negative odds, chose favorite
+            amount = units * (100.0 / (odds * -1.0));
+        }
+        double roundedAmount = Math.round(amount * 100) / 100;
+        log.info("Risking " + units + " to win " + roundedAmount);
+        return roundedAmount;
+    }
+
 }
