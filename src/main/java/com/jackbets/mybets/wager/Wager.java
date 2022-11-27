@@ -29,13 +29,13 @@ public class Wager {
     private @Getter @Setter Integer theOdds;
     private @Getter @Setter Status status;
     private @Getter @Setter LocalDateTime timePlaced;
-    private @Getter @Setter Integer toWin;
+    private @Getter @Setter Double toWin;
 
     public Wager() {
     }
 
     public Wager(String theBet, double units, Integer theOdds, Status status, LocalDateTime timePlaced,
-            Integer toWin) {
+            Double toWin) {
         this.theBet = theBet;
         this.units = units;
         this.theOdds = theOdds;
