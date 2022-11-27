@@ -13,9 +13,11 @@ import com.jackbets.mybets.status.Status;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Table
+@Slf4j
 public class Wager {
 
     @Id
