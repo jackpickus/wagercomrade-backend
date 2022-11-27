@@ -6,12 +6,14 @@
 </head>
 <body>
     <h1>New Wager</h1>
-    <form action="#" th:action="@{/new-wager}" th:object="${wager}" method="post">
-        <p>The Bet: <input type="text" th:field="*{theBet}" /></p>
-        <p>Units: <input type="number" th:field="*{units}" /></p>
-        <p>Odds: <input type="number" th:field="*{theOdds}" /></p>
-        <!-- TODO set status to pending, automatically set time on submit, and calc toWin -->
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    <form action="#" th:action="@{/new-wager}" th:object="${new_wager}" method="post">
+        <label for="theBet">The Bet:
+        <input type="text" th:field="*{theBet}" /></label>
+        <label for="units">Units:
+        <input type="number" step="any" min="0.1" th:field="*{units}" /></label>
+        <label for="odds">Odds:
+        <input type="number" th:field="*{theOdds}" /></label>
+        <p><input type="submit" value="Submit" /></p>
     </form>
 </body>
 </html>
