@@ -43,14 +43,15 @@ public class WagerController {
 
     @PostMapping(path = "/new-wager")
     @PreAuthorize("hasAuthority('bet:write')")
-    public Response placeNewWager(@ModelAttribute Wager wager, Model model) {
+    public String placeNewWager(@ModelAttribute Wager wager, Model model) {
         model.addAttribute("new_wager", wager);
         LocalDateTime localDateTime = LocalDateTime.now();
         wager.setTimePlaced(localDateTime);
         wager.setStatus(Status.PENDING);
         double toWin = wager.calcToWin(wager.getUnits(), wager.getTheOdds());
         wager.setToWin(toWin);
-        return wagerService.addNewWager(wager);
+        wagerService.addNewWager(wager);
+        return "redirect:/wagerlist";
     }
 
     @DeleteMapping(path = "api/v1/wager/{wagerId}")
