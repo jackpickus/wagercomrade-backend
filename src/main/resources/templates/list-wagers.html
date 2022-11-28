@@ -20,13 +20,13 @@
             <th>Time Placed</th>
         </thead>
         <tbody>
-            <tr th:each="wager: ${wagers}">
-                <td th:text="${wager.theBet}" />
-                <td th:text="${wager.theOdds}" />
-                <td th:text="${wager.units}" />
-                <td th:text="${wager.toWin}" />
-                <td th:text="${wager.status}" />
-                <td th:text="${wager.timePlaced}" />
+            <tr th:each="wagers, stat : ${#lists.sort(wagers, byTimePlaced)}">
+                <td th:text="${wagers.theBet}" />
+                <td th:text="${wagers.theOdds}" />
+                <td th:text="${wagers.units}" />
+                <td th:text="${wagers.toWin}" />
+                <td th:text="${wagers.status}" />
+                <td th:text="${wagers.timePlaced}" />
             </tr>
         </tbody>
     </table>

@@ -1,6 +1,7 @@
 package com.jackbets.mybets.wager;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,7 @@ public class WagerController {
     public String getAllWagers(Model model) {
         List<Wager> wagers = wagerService.getWagers();
         model.addAttribute("wagers", wagers);
+        model.addAttribute("byTimePlaced", Comparator.comparing(Wager::getTimePlaced).reversed());
         return "list-wagers";
     }
 
