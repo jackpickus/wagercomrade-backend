@@ -9,6 +9,7 @@
     <h1>Wagers</h1>
     <p>Lets make some money!</p>
     <a href="/new-wager">Add a new wager</a>
+    <th:block th:if="${#lists.isEmpty(wagers)}">No wagers have been placed</th:block>
     <table>
         <thead>
             <th>Wager</th>
