@@ -1,5 +1,6 @@
 package com.jackbets.mybets.wager;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,6 +43,11 @@ public class WagerController {
     @PreAuthorize("hasAuthority('bet:write')")
     public Response placeNewWager(@ModelAttribute Wager wager, Model model) {
         model.addAttribute("new_wager", wager);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        wager.setTimePlaced(localDateTime);
+        wager.setStatus(Status.PENDING);
+        double toWin = wager.calcToWin(wager.getUnits(), wager.getTheOdds());
+        wager.setToWin(toWin);
         return wagerService.addNewWager(wager);
     }
 
