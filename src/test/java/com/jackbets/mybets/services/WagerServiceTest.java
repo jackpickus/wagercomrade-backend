@@ -47,13 +47,13 @@ class WagerServiceTest {
                 -110,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
-                100);
+                100.0);
         wager2 = new Wager("Red Sox +1.5",
                 72.5,
                 -145,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
-                50);
+                50.0);
 
         // id must be set manually
         wager1.setId(1L);

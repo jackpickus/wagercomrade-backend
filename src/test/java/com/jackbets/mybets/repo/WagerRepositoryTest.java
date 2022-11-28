@@ -31,7 +31,7 @@ class WagerRepositoryTest {
                 -110,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
-                100);
+                100.0);
     }
 
     @AfterEach
@@ -56,14 +56,14 @@ class WagerRepositoryTest {
                 145,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 8, 15, 23),
-                145);
+                145.0);
         Wager wager2 = new Wager(
                 "Cubs +1.5",
                 145,
                 -145,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
-                100);
+                100.0);
 
         wagerRepository.save(wager1);
         wagerRepository.save(wager2);
@@ -81,7 +81,7 @@ class WagerRepositoryTest {
                 -145,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
-                50);
+                50.0);
 
         Wager wager2 = wagerRepository.save(wager1);
 
@@ -98,7 +98,7 @@ class WagerRepositoryTest {
                 -145,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
-                50);
+                50.0);
 
         wagerRepository.save(wager);
         wagerRepository.deleteById(wager.getId());
@@ -117,7 +117,7 @@ class WagerRepositoryTest {
                     -145,
                     Status.PENDING,
                     LocalDateTime.of(2022, Month.JULY, 4, count, 15, 23),
-                    50);
+                    50.0);
 
             wagerRepository.save(wager);
             count++;
