@@ -73,4 +73,12 @@ public class WagerController {
         wagerService.updateWager(wagerId, status);
     }
 
+    @GetMapping(path = "/edit-wager/{wagerId}")
+    @PreAuthorize("hasAuthority('bet:write')")
+    public String editWager(@PathVariable("wagerId") Long wagerId, Model model) {
+        Wager wager = wagerService.getWager(wagerId);
+        model.addAttribute("wager", wager);
+        return "edit-wager";
+    }
+
 }
