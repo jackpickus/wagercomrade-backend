@@ -16,9 +16,9 @@
         <input type="number" th:field="*{theOdds}" th:value="${wager.theOdds}" /></label>
         <label>Status:</label>
         <select th:field="*{status}">
-            <option th:each="status : ${allStatus}"
-                    th:value="${status}"
-                    th:text="${wager.status}">RED
+            <option th:each="statusOpt : ${T(com.jackbets.mybets.status.Status).values()}"
+                    th:value="${statusOpt}"
+                    th:text="${statusOpt}">
             </option>
         </select>
         <p><input type="submit" value="Submit" /></p>
