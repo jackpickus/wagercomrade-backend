@@ -67,7 +67,7 @@ public class WagerController {
         wagerService.deleteWager(wagerId);
     }
 
-    @PutMapping(path = "api/v1/wager/{wagerId}")
+    @PutMapping(path = "/wager/{wagerId}")
     @PreAuthorize("hasAuthority('bet:write')")
     public void updateWager(@PathVariable("wagerId") Long wagerId, @RequestParam("status") Status status) {
         wagerService.updateWager(wagerId, status);
