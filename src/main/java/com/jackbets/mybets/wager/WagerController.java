@@ -34,6 +34,13 @@ public class WagerController {
         return "list-wagers";
     }
 
+    @GetMapping("/wager/{wagerId}")
+    public String getWager(@PathVariable("wagerId") Long wagerId, Model model) {
+        Wager wager = wagerService.getWager(wagerId);
+        model.addAttribute("wager", wager);
+        return "wager";
+    }
+
     @GetMapping("/new-wager")
     @PreAuthorize("hasAuthority('bet:write')")
     public String newWagerForm(Model model) {

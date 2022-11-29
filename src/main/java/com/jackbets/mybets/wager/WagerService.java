@@ -46,4 +46,10 @@ public class WagerService {
         }
     }
 
+    public Wager getWager(Long wagerId) {
+        Wager wager = wagerRepository.findById(wagerId)
+                .orElseThrow(() -> new WagerNotFoundException(wagerId));
+        return wager;
+    }
+
 }
