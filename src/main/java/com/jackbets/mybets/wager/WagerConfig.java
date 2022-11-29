@@ -38,12 +38,12 @@ public class WagerConfig {
                     LocalDateTime.of(2022, Month.JULY, 11, 8, 15, 23),
                     1.0);
             Wager bet4 = new Wager(
-                    "Mets ML",
-                    0.91,
-                    110,
+                    "Bears ML",
+                    2.0,
+                    100,
                     Status.PENDING,
-                    LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
-                    1.0);
+                    LocalDateTime.of(2022, Month.NOVEMBER, 2, 8, 15, 23),
+                    2.0);
 
             repository.saveAll(List.of(bet1, bet2, bet3, bet4));
         };
