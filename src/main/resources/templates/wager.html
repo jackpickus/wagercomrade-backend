@@ -5,5 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+    <h1>Wager: <span th:text="${wager.theBet}" /></h1>
+    <p>Odds: <span th:text="${wager.theOdds}" /></p>
+    <p>Units: <span th:text="${wager.units}" /></p>
+    <p>To Win: <span th:text="${wager.toWin}" /></p>
+    <p>Status: <span th:text="${wager.status}" /></p>
+    <p>Time: <span th:text="${wager.timePlaced}" /></p>
+    <a href="">Edit wager</a>
 </body>
 </html>
