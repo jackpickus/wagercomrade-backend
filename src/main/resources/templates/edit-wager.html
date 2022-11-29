@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Jack Bets Money</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Edit Wager</h1>
+    <!-- TODO on submit make sure object is the wager editting -->
+    <form action="#" th:action="@{/new-wager}" th:object="${new_wager}" method="put">
+        <label for="theBet">The Bet:
+        <input type="text" th:field="*{theBet}" th:value="${wager.theBet}" /></label>
+        <label for="units">Units:
+        <input type="number" step="any" min="0.1" th:field="*{units}" th:value="${wager.units}" /></label>
+        <label for="odds">Odds:
+        <input type="number" th:field="*{theOdds}" th:value="${wager.theOdds}" /></label>
+        <label>Status:</label>
+        <select th:field="*{status}">
+            <option th:each="status : ${allStatus}"
+                    th:value="${status}"
+                    th:text="${wager.status}">RED
+            </option>
+        </select>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+</body>
+</html>
