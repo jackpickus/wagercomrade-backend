@@ -8,6 +8,8 @@
    <div class="container">
     <h1>Wagers</h1>
     <p>Lets make some money!</p>
+    <h3>Units: <span th:text="${units}" /></h3>
+    <h3>Units Pending: <span th:text="${unitsPending}" /></h3>
     <a href="/new-wager">Add a new wager</a>
     <th:block th:if="${#lists.isEmpty(wagers)}">No wagers have been placed</th:block>
     <table>
