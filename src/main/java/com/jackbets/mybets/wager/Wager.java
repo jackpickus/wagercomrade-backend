@@ -58,13 +58,14 @@ public class Wager {
     
         if (odds >= 100) {
             // wager was on underdog
-            amount = units * (odds / 100);
+            amount = units * (odds / 100.0);
         } else {
             // wager was negative odds, chose favorite
             amount = units * (100.0 / (odds * -1.0));
         }
-        double roundedAmount = Math.round(amount * 100) / 100;
-        log.info("Risking " + units + " to win " + roundedAmount);
+        double roundedAmount = Math.round(amount * 100.0) / 100.0;
+        log.info("Risking " + units + " to win " + amount);
+        log.info("Odds: " + odds);
         return roundedAmount;
     }
 
