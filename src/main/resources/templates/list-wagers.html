@@ -21,7 +21,7 @@
         </thead>
         <tbody>
             <tr th:each="wagers, stat : ${#lists.sort(wagers, byTimePlaced)}">
-                <td th:text="${wagers.theBet}" />
+                <td><a th:href="@{/wager/{id}(id=${wagers.id})}" th:text="${wagers.theBet}" /></td>
                 <td th:text="${wagers.theOdds}" />
                 <td th:text="${wagers.units}" />
                 <td th:text="${wagers.toWin}" />
