@@ -29,6 +29,21 @@ public class WagerController {
         List<Wager> wagers = wagerService.getWagers();
         model.addAttribute("wagers", wagers);
         model.addAttribute("byTimePlaced", Comparator.comparing(Wager::getTimePlaced).reversed());
+
+        double unitsPending = 0, units = 0;
+        for (Wager w : wagers) {
+            if (w.getStatus().equals(Status.PENDING)) {
+                unitsPending += w.getUnits();
+            } else if (w.getStatus().equals(Status.LOST)){
+                units -= w.getUnits(); 
+            } else if (w.getStatus().equals(Status.WON)) {
+                units += w.getToWin();
+            }
+
+        model.addAttribute("unitsPending", unitsPending);
+        model.addAttribute("units", units);
+        }
+
         return "list-wagers";
     }
 
