@@ -29,6 +29,7 @@ public class WagerService {
         return new Response(newWager.getId());
     }
 
+    // TODO Allow wagers to be deleted?
     public void deleteWager(Long wagerId) {
         boolean exists = wagerRepository.existsById(wagerId);
         if (!exists) {

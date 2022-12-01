@@ -59,6 +59,7 @@ public class WagerController {
         return "redirect:/wagerlist";
     }
 
+    // TODO Allow wagers to be deleted?
     @DeleteMapping(path = "api/v1/wager/{wagerId}")
     @PreAuthorize("hasAuthority('bet:write')")
     public void deleteWager(@PathVariable("wagerId") Long wagerId) {
