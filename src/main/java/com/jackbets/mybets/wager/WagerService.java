@@ -1,5 +1,6 @@
 package com.jackbets.mybets.wager;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -37,13 +38,38 @@ public class WagerService {
     }
 
     @Transactional
-    public void updateWager(Long wagerId, Status status) {
+    public void updateWager(Long wagerId, HashMap<String, String> hmap) {
         Wager wager = wagerRepository.findById(wagerId)
                 .orElseThrow(() -> new WagerNotFoundException(wagerId));
 
-        if (status instanceof Status) {
-            wager.setStatus(status);
-        }
+        hmap.forEach((key, value) -> {
+            // ? Should a switch statement be used here
+            switch (key) {
+                case "theBet":
+                    wager.setTheBet(value);
+                    break;
+
+                case "theOdds":
+                    int newOdds = Integer.valueOf(value);
+                    wager.setTheOdds(newOdds);
+                    break;
+
+                case "units":
+                    Double newUnits = Double.parseDouble(value);
+                    wager.setUnits(newUnits);
+                    break;
+
+                case "status":
+                    Status newStatus = Status.valueOf(value);
+                    wager.setStatus(newStatus);
+                    break;
+
+                case "toWin":
+                    Double newToWin = Double.parseDouble(value);
+                    wager.setUnits(newToWin);
+                    break;
+            }
+        });
     }
 
     public Wager getWager(Long wagerId) {
