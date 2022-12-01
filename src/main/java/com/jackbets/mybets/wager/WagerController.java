@@ -107,10 +107,19 @@ public class WagerController {
         if (!oldWager.getStatus().equals(updatedWager.getStatus())) {
             hashMap.put("status", updatedWager.getStatus().toString());
         }
-        if (oddsChanged || unitsChanged) {
+        if (oddsChanged && unitsChanged) {
             double toWin = updatedWager.calcToWin(updatedWager.getUnits(), updatedWager.getTheOdds());
             String toWinString = String.valueOf(toWin);
             hashMap.put("toWin", toWinString);
+        } else if (oddsChanged) {
+            double toWin = updatedWager.calcToWin(oldWager.getUnits(), updatedWager.getTheOdds());
+            String toWinString = String.valueOf(toWin);
+            hashMap.put("toWin", toWinString);
+        } else if (unitsChanged) {
+            double toWin = updatedWager.calcToWin(updatedWager.getUnits(), oldWager.getTheOdds());
+            String toWinString = String.valueOf(toWin);
+            hashMap.put("toWin", toWinString);
+
         }
         wagerService.updateWager(wagerId, hashMap);
         return "redirect:/wager/{wagerId}";
