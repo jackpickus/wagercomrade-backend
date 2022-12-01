@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -102,8 +103,10 @@ class WagerServiceTest {
     public void givenIdAndStatusUpdateWager() {
         wagerRepository.save(wager1);
         Long wager1Id = wager1.getId();
-        wagerService2.updateWager(wager1Id, Status.WON);
-        verify(wagerService2, times(1)).updateWager(wager1.getId(), Status.WON);
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("status", "WON");
+        wagerService2.updateWager(wager1Id, hashMap);
+        verify(wagerService2, times(1)).updateWager(wager1.getId(), hashMap);
     }
 
 }
