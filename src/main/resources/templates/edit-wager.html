@@ -6,8 +6,7 @@
 </head>
 <body>
     <h1>Edit Wager</h1>
-    <!-- TODO on submit make sure object is the wager editting -->
-    <form action="#" th:action="@{/new-wager}" th:object="${new_wager}" method="put">
+    <form action="#" th:action="@{/wager/{id}(id=${wager.id})}" th:object="${wager}" method="post">
         <label for="theBet">The Bet:
         <input type="text" th:field="*{theBet}" th:value="${wager.theBet}" /></label>
         <label for="units">Units:
