@@ -67,7 +67,7 @@ public class WagerService {
 
                 case "toWin":
                     Double newToWin = Double.parseDouble(value);
-                    wager.setUnits(newToWin);
+                    wager.setToWin(newToWin);
                     break;
             }
         });
