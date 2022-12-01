@@ -2,6 +2,7 @@ package com.jackbets.mybets.wager;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -67,10 +68,39 @@ public class WagerController {
         wagerService.deleteWager(wagerId);
     }
 
-    @PutMapping(path = "/wager/{wagerId}")
+    @PostMapping(path = "/wager/{wagerId}")
     @PreAuthorize("hasAuthority('bet:write')")
-    public void updateWager(@PathVariable("wagerId") Long wagerId, @RequestParam("status") Status status) {
-        wagerService.updateWager(wagerId, status);
+    public String updateWager(@PathVariable("wagerId") Long wagerId, @ModelAttribute Wager updatedWager, Model model) {
+        model.addAttribute("wager", updatedWager);
+        Wager oldWager = wagerService.getWager(wagerId);
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        Boolean oddsChanged = false;
+        Boolean unitsChanged = false;
+        if (updatedWager.equals(oldWager)) {
+            return "redirect:/wagerlist";
+        }
+        if (!oldWager.getTheBet().equals(updatedWager.getTheBet())) {
+            hashMap.put("theBet", updatedWager.getTheBet());
+        }
+        if (oldWager.getTheOdds() != updatedWager.getTheOdds()) {
+            oddsChanged = true;
+            hashMap.put("theOdds", updatedWager.getTheOdds().toString());
+        }
+        if (oldWager.getUnits() != updatedWager.getUnits()) {
+            unitsChanged = true;
+            String unitsString = String.valueOf(updatedWager.getUnits());
+            hashMap.put("units", unitsString);
+        }
+        if (!oldWager.getStatus().equals(updatedWager.getStatus())) {
+            hashMap.put("status", updatedWager.getStatus().toString());
+        }
+        if (oddsChanged || unitsChanged) {
+            double toWin = updatedWager.calcToWin(updatedWager.getUnits(), updatedWager.getTheOdds());
+            String toWinString = String.valueOf(toWin);
+            hashMap.put("toWin", toWinString);
+        }
+        wagerService.updateWager(wagerId, hashMap);
+        return "redirect:/wager/{wagerId}";
     }
 
     @GetMapping(path = "/edit-wager/{wagerId}")
