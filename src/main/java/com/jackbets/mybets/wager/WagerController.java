@@ -3,8 +3,6 @@ package com.jackbets.mybets.wager;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +24,12 @@ public class WagerController {
 
     @GetMapping({"/wagerlist", "/"})
     public String getAllWagers(Model model) {
-        List<Wager> wagers = wagerService.getWagers();
+        var wagers = wagerService.getWagers();
         model.addAttribute("wagers", wagers);
         model.addAttribute("byTimePlaced", Comparator.comparing(Wager::getTimePlaced).reversed());
 
-        double unitsPending = 0, units = 0;
+        var unitsPending = 0;
+        var units = 0;
         for (Wager w : wagers) {
             if (w.getStatus().equals(Status.PENDING)) {
                 unitsPending += w.getUnits();
@@ -49,7 +48,7 @@ public class WagerController {
 
     @GetMapping("/wager/{wagerId}")
     public String getWager(@PathVariable("wagerId") Long wagerId, Model model) {
-        Wager wager = wagerService.getWager(wagerId);
+        var wager = wagerService.getWager(wagerId);
         model.addAttribute("wager", wager);
         return "wager";
     }
@@ -65,7 +64,7 @@ public class WagerController {
     @PreAuthorize("hasAuthority('bet:write')")
     public String placeNewWager(@ModelAttribute Wager wager, Model model) {
         model.addAttribute("new_wager", wager);
-        LocalDateTime localDateTime = LocalDateTime.now();
+        var localDateTime = LocalDateTime.now();
         wager.setTimePlaced(localDateTime);
         wager.setStatus(Status.PENDING);
         double toWin = wager.calcToWin(wager.getUnits(), wager.getTheOdds());
@@ -85,10 +84,10 @@ public class WagerController {
     @PreAuthorize("hasAuthority('bet:write')")
     public String updateWager(@PathVariable("wagerId") Long wagerId, @ModelAttribute Wager updatedWager, Model model) {
         model.addAttribute("wager", updatedWager);
-        Wager oldWager = wagerService.getWager(wagerId);
-        HashMap<String, String> hashMap = new HashMap<String, String>();
-        Boolean oddsChanged = false;
-        Boolean unitsChanged = false;
+        var oldWager = wagerService.getWager(wagerId);
+        var hashMap = new HashMap<String, String>();
+        var oddsChanged = false;
+        var unitsChanged = false;
         if (updatedWager.equals(oldWager)) {
             return "redirect:/wagerlist";
         }
@@ -128,7 +127,7 @@ public class WagerController {
     @GetMapping(path = "/edit-wager/{wagerId}")
     @PreAuthorize("hasAuthority('bet:write')")
     public String editWager(@PathVariable("wagerId") Long wagerId, Model model) {
-        Wager wager = wagerService.getWager(wagerId);
+        var wager = wagerService.getWager(wagerId);
         model.addAttribute("wager", wager);
         return "edit-wager";
     }
