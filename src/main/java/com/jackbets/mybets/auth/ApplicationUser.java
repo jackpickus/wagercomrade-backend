@@ -3,9 +3,19 @@ package com.jackbets.mybets.auth;
 import java.util.Collection;
 import java.util.Set;
 
+import javax.persistence.Table;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Entity
+@Table(name = "user_table")
 public class ApplicationUser implements UserDetails{
 
     private final Set<? extends GrantedAuthority> grantedAuthorities;
@@ -16,7 +26,10 @@ public class ApplicationUser implements UserDetails{
     private final boolean isCredentialsNonExpired;
     private final boolean isEnabled;
 
-    
+   @Id
+   @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequnce", allocationSize = 1)
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequnce")
+   private Long id;
 
 
     public ApplicationUser(Set<? extends GrantedAuthority> grantedAuthorities, String password, String username,
