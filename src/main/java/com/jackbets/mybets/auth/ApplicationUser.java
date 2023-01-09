@@ -34,12 +34,6 @@ public class ApplicationUser implements UserDetails{
     private final boolean isCredentialsNonExpired;
     private final boolean isEnabled;
 
-   @Id
-   @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequnce", allocationSize = 1)
-   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequnce")
-   private Long id;
-
-
     public ApplicationUser(Set<? extends GrantedAuthority> grantedAuthorities, String password, String username,
             boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired,
             boolean isEnabled) {
