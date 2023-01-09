@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.Table;
-
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
