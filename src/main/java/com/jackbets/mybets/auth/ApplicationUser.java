@@ -18,7 +18,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "user_table")
 public class ApplicationUser implements UserDetails{
 
-    private final Set<? extends GrantedAuthority> grantedAuthorities;
+   @Id
+   @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+   private Long id;
+
     private final String password;
     private final String username;
     private final boolean isAccountNonExpired;
