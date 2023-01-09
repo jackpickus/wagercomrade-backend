@@ -25,6 +25,10 @@ public class ApplicationUser implements UserDetails{
 
     private final String password;
     private final String username;
+
+    @ElementCollection(targetClass=GrantedAuthority.class)
+    private final Set<? extends GrantedAuthority> grantedAuthorities;
+
     private final boolean isAccountNonExpired;
     private final boolean isAccountNonLocked;
     private final boolean isCredentialsNonExpired;
