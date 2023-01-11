@@ -7,9 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.jackbets.mybets.auth.AppUserRole;
 import com.jackbets.mybets.auth.ApplicationUser;
 import com.jackbets.mybets.auth.ApplicationUserRepository;
-import com.jackbets.mybets.security.ApplicationUserRole;
 import com.jackbets.mybets.status.Status;
 
 @Configuration
@@ -49,7 +49,7 @@ public class WagerConfig {
 
             repository.saveAll(List.of(bet1, bet2, bet3, bet4));
 
-            ApplicationUser myGuy = new ApplicationUser(ApplicationUserRole.ADMIN.getGrantedAuthorities(), "$2a$10$.VRp3xwjX.RTWneRZgyu3uoPKXlqsFVtvKw38u4893c83s2GazY0.", "admin", false, false, false, false);
+            ApplicationUser myGuy = new ApplicationUser(AppUserRole.ROLE_ADMIN, "$2a$10$.VRp3xwjX.RTWneRZgyu3uoPKXlqsFVtvKw38u4893c83s2GazY0.", "admin", true, true, true, true);
             userRepository.save(myGuy);
         };
     }
