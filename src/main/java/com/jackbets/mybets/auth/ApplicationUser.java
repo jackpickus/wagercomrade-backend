@@ -1,19 +1,29 @@
 package com.jackbets.mybets.auth;
 
 import java.util.Collection;
-import java.util.Set;
-
+import java.util.Collections;
 import javax.persistence.Table;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
 @Entity
 @Table(name = "user_table")
 public class ApplicationUser implements UserDetails{
@@ -23,23 +33,24 @@ public class ApplicationUser implements UserDetails{
    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
    private Long id;
 
-    private final String password;
-    private final String username;
+    private String password;
+    private String username;
 
-    @ElementCollection(targetClass=GrantedAuthority.class)
-    private final Set<? extends GrantedAuthority> grantedAuthorities;
+    @Enumerated(EnumType.STRING)
+    private AppUserRole appUserRole;
 
-    private final boolean isAccountNonExpired;
-    private final boolean isAccountNonLocked;
-    private final boolean isCredentialsNonExpired;
-    private final boolean isEnabled;
+    private boolean isAccountNonExpired;
+    private boolean isAccountNonLocked;
+    private boolean isCredentialsNonExpired;
+    private boolean isEnabled;
 
-    public ApplicationUser(Set<? extends GrantedAuthority> grantedAuthorities, String password, String username,
-            boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired,
-            boolean isEnabled) {
-        this.grantedAuthorities = grantedAuthorities;
+
+
+    public ApplicationUser(AppUserRole appUserRole, String password, String username,  boolean isAccountNonExpired,
+            boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
         this.password = password;
         this.username = username;
+        this.appUserRole = appUserRole;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
@@ -48,7 +59,8 @@ public class ApplicationUser implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
+        return Collections.singletonList(authority);
     }
 
     @Override
