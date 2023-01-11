@@ -17,8 +17,8 @@ public class ApplicationUserDaoService implements ApplicationUserDao {
 
     @Override
     public Optional<ApplicationUser> selectApplicationUserByUsername(String username) {
-        ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
-        return Optional.ofNullable(applicationUser);
+        Optional<ApplicationUser> applicationUser = applicationUserRepository.findByUsername(username);
+        return applicationUser;
     }
     
 }
