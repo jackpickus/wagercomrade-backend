@@ -3,6 +3,7 @@ package com.jackbets.mybets.wager;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,14 +55,14 @@ public class WagerController {
     }
 
     @GetMapping("/new-wager")
-    @PreAuthorize("hasAuthority('bet:write')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String newWagerForm(Model model) {
         model.addAttribute("new_wager", new Wager());
         return "new-wager";
     }
 
     @PostMapping(path = "/new-wager")
-    @PreAuthorize("hasAuthority('bet:write')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String placeNewWager(@ModelAttribute Wager wager, Model model) {
         model.addAttribute("new_wager", wager);
         var localDateTime = LocalDateTime.now();
@@ -75,13 +76,13 @@ public class WagerController {
 
     // TODO Allow wagers to be deleted?
     @DeleteMapping(path = "api/v1/wager/{wagerId}")
-    @PreAuthorize("hasAuthority('bet:write')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteWager(@PathVariable("wagerId") Long wagerId) {
         wagerService.deleteWager(wagerId);
     }
 
     @PostMapping(path = "/wager/{wagerId}")
-    @PreAuthorize("hasAuthority('bet:write')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String updateWager(@PathVariable("wagerId") Long wagerId, @ModelAttribute Wager updatedWager, Model model) {
         model.addAttribute("wager", updatedWager);
         var oldWager = wagerService.getWager(wagerId);
@@ -125,7 +126,7 @@ public class WagerController {
     }
 
     @GetMapping(path = "/edit-wager/{wagerId}")
-    @PreAuthorize("hasAuthority('bet:write')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editWager(@PathVariable("wagerId") Long wagerId, Model model) {
         var wager = wagerService.getWager(wagerId);
         model.addAttribute("wager", wager);
