@@ -29,8 +29,8 @@ public class WagerController {
         model.addAttribute("wagers", wagers);
         model.addAttribute("byTimePlaced", Comparator.comparing(Wager::getTimePlaced).reversed());
 
-        var unitsPending = 0;
-        var units = 0;
+        var unitsPending = 0.0;
+        var units = 0.0;
         for (Wager w : wagers) {
             if (w.getStatus().equals(Status.PENDING)) {
                 unitsPending += w.getUnits();
@@ -39,6 +39,9 @@ public class WagerController {
             } else if (w.getStatus().equals(Status.WON)) {
                 units += w.getToWin();
             }
+
+        units = (double)Math.round(units * 100d) / 100d;
+        unitsPending = (double)Math.round(unitsPending * 100d) / 100d;
 
         model.addAttribute("unitsPending", unitsPending);
         model.addAttribute("units", units);
