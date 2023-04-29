@@ -4,19 +4,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.jackbets.mybets.category.Category;
 import com.jackbets.mybets.status.Status;
 import com.jackbets.mybets.wager.Wager;
 import com.jackbets.mybets.wager.WagerRepository;
 
-@DataJpaTest
+// @DataJpaTest
+@SpringBootTest
 class WagerRepositoryTest {
 
     @Autowired
@@ -25,13 +31,16 @@ class WagerRepositoryTest {
 
     @BeforeEach
     public void setUp() {
+        Set<Category> footballSet = new HashSet<Category>();
+        footballSet.add(Category.NFL);
         wager = new Wager(
                 "Bears +3.5",
                 110,
                 -110,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
-                100.0);
+                100.0,
+                footballSet);
     }
 
     @AfterEach
@@ -50,20 +59,24 @@ class WagerRepositoryTest {
 
     @Test
     public void givenGetAllWagersShouldReturnListOfAllWagers() {
+        Set<Category> baseballSet = new HashSet<Category>();
+        baseballSet.add(Category.MLB);
         Wager wager1 = new Wager(
                 "Texas Rangers -1.5",
                 100,
                 145,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 8, 15, 23),
-                145.0);
+                145.0,
+                baseballSet);
         Wager wager2 = new Wager(
                 "Cubs +1.5",
                 145,
                 -145,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
-                100.0);
+                100.0,
+                baseballSet);
 
         wagerRepository.save(wager1);
         wagerRepository.save(wager2);
@@ -75,13 +88,16 @@ class WagerRepositoryTest {
 
     @Test
     public void givenIdThenShouldReturnWagerOfThatId() {
+        Set<Category> baseballSet = new HashSet<Category>();
+        baseballSet.add(Category.MLB);
         Wager wager1 = new Wager(
                 "Cubs +1.5",
                 72.5,
                 -145,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
-                50.0);
+                50.0,
+                baseballSet);
 
         Wager wager2 = wagerRepository.save(wager1);
 
@@ -92,13 +108,16 @@ class WagerRepositoryTest {
 
     @Test
     public void givenIdToDeleteThenShouldDeleteWager() {
+        Set<Category> baseballSet = new HashSet<Category>();
+        baseballSet.add(Category.MLB);
         Wager wager = new Wager(
                 "Red Sox +1.5",
                 72.5,
                 -145,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
-                50.0);
+                50.0,
+                baseballSet);
 
         wagerRepository.save(wager);
         wagerRepository.deleteById(wager.getId());
@@ -110,6 +129,8 @@ class WagerRepositoryTest {
     @Test
     public void givenFiveWagersReturnCountOfFive() {
         int count = 0;
+        Set<Category> baseballSet = new HashSet<Category>();
+        baseballSet.add(Category.MLB);
         while (count < 5) {
             Wager wager = new Wager(
                     "Red Sox +1.5",
@@ -117,7 +138,8 @@ class WagerRepositoryTest {
                     -145,
                     Status.PENDING,
                     LocalDateTime.of(2022, Month.JULY, 4, count, 15, 23),
-                    50.0);
+                    50.0,
+                    baseballSet);
 
             wagerRepository.save(wager);
             count++;

@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +21,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.jackbets.mybets.category.Category;
 import com.jackbets.mybets.status.Status;
 import com.jackbets.mybets.wager.Wager;
 import com.jackbets.mybets.wager.WagerRepository;
@@ -42,19 +46,27 @@ class WagerServiceTest {
 
     @BeforeEach
     public void setUp() {
+        Set<Category> footballSet = new HashSet<Category>();
+        Set<Category> baseballSet = new HashSet<Category>();
+        footballSet.add(Category.NFL);
+        baseballSet.add(Category.MLB);
+
         wagerList = new ArrayList<>();
+
         wager1 = new Wager("Bears +3.5",
                 110,
                 -110,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
-                100.0);
+                100.0,
+                footballSet);
         wager2 = new Wager("Red Sox +1.5",
                 72.5,
                 -145,
                 Status.PENDING,
                 LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
-                50.0);
+                50.0,
+                baseballSet);
 
         // id must be set manually
         wager1.setId(1L);
