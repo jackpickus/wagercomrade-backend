@@ -1,6 +1,7 @@
 package com.jackbets.mybets.wager;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.jackbets.mybets.category.Category;
 import com.jackbets.mybets.status.Status;
 
 import lombok.EqualsAndHashCode;
@@ -32,18 +34,20 @@ public class Wager {
     private @Getter @Setter Status status;
     private @Getter @Setter LocalDateTime timePlaced;
     private @Getter @Setter Double toWin;
+    private @Getter Set<Category> betCategory;
 
     public Wager() {
     }
 
     public Wager(String theBet, double units, Integer theOdds, Status status, LocalDateTime timePlaced,
-            Double toWin) {
+            Double toWin, Set<Category> betCategory) {
         this.theBet = theBet;
         this.units = units;
         this.theOdds = theOdds;
         this.status = status;
         this.timePlaced = timePlaced;
         this.toWin = toWin;
+        this.betCategory = betCategory;
     }
 
     double calcToWin(double units, int odds) {
