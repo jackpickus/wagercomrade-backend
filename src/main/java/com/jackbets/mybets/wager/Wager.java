@@ -1,9 +1,9 @@
 package com.jackbets.mybets.wager;
 
 import java.time.LocalDateTime;
-import java.util.Set;
-
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,20 +34,20 @@ public class Wager {
     private @Getter @Setter Status status;
     private @Getter @Setter LocalDateTime timePlaced;
     private @Getter @Setter Double toWin;
-    private @Getter Set<Category> betCategory;
+    private @Getter @Setter Category sportCategory;
 
     public Wager() {
     }
 
     public Wager(String theBet, double units, Integer theOdds, Status status, LocalDateTime timePlaced,
-            Double toWin, Set<Category> betCategory) {
+            Double toWin, Category sportCategory) {
         this.theBet = theBet;
         this.units = units;
         this.theOdds = theOdds;
         this.status = status;
         this.timePlaced = timePlaced;
         this.toWin = toWin;
-        this.betCategory = betCategory;
+        this.sportCategory = sportCategory;
     }
 
     double calcToWin(double units, int odds) {
