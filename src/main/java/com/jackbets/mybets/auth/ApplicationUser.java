@@ -35,6 +35,7 @@ public class ApplicationUser implements UserDetails{
 
     private String password;
     private String username;
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
@@ -46,10 +47,17 @@ public class ApplicationUser implements UserDetails{
 
 
 
-    public ApplicationUser(AppUserRole appUserRole, String password, String username,  boolean isAccountNonExpired,
-            boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
+    public ApplicationUser(AppUserRole appUserRole,
+            String password,
+            String username,
+            String email,
+            boolean isAccountNonExpired,
+            boolean isAccountNonLocked,
+            boolean isCredentialsNonExpired,
+            boolean isEnabled) {
         this.password = password;
         this.username = username;
+        this.email = email;
         this.appUserRole = appUserRole;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;

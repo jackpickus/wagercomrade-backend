@@ -20,5 +20,10 @@ public class ApplicationUserDaoService implements ApplicationUserDao {
         Optional<ApplicationUser> applicationUser = applicationUserRepository.findByUsername(username);
         return applicationUser;
     }
+
+    @Override
+    public void save(ApplicationUser applicationUser) {
+        applicationUserRepository.save(applicationUser);
+    }
     
 }

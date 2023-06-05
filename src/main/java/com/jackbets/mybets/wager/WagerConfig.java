@@ -55,7 +55,7 @@ public class WagerConfig {
 
             repository.saveAll(List.of(bet1, bet2, bet3, bet4));
 
-            ApplicationUser myGuy = new ApplicationUser(AppUserRole.ROLE_ADMIN, "$2a$10$.VRp3xwjX.RTWneRZgyu3uoPKXlqsFVtvKw38u4893c83s2GazY0.", "admin", true, true, true, true);
+            ApplicationUser myGuy = new ApplicationUser(AppUserRole.ROLE_ADMIN, "$2a$10$.VRp3xwjX.RTWneRZgyu3uoPKXlqsFVtvKw38u4893c83s2GazY0.", "admin", "cash@bank.com", true, true, true, true);
             userRepository.save(myGuy);
         };
     }
