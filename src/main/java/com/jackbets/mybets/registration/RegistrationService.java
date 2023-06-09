@@ -16,7 +16,7 @@ public class RegistrationService {
     private final EmailValidator emailValidator;
 
     public String register(RegistrationRequest request) {
-        var isValidEmail = emailValidator.test(request.getEmail());
+        var isValidEmail = emailValidator.test(request.email());
 
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
@@ -25,9 +25,9 @@ public class RegistrationService {
         return applicationUserService.signUpUser(
             new ApplicationUser(
                 AppUserRole.ROLE_USER,
-                request.getPassword(),
-                request.getUsername(),
-                request.getEmail(), 
+                request.password(),
+                request.username(),
+                request.email(), 
                 false,
                 true,
                 false,

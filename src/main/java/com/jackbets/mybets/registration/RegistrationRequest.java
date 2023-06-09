@@ -1,18 +1,16 @@
 package com.jackbets.mybets.registration;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import java.util.Objects;
 
-@Getter
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public class RegistrationRequest {
+public record RegistrationRequest(
+    String username,
+    String email,
+    String password) {
 
-    private final String username;
-    private final String email;
-    private final String password;
+    public RegistrationRequest {
+        Objects.requireNonNull(username);
+        Objects.requireNonNull(email);
+        Objects.requireNonNull(password);
+    }
 
 }
