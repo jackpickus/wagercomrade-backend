@@ -1,7 +1,10 @@
 package com.jackbets.mybets.auth;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+
 import javax.persistence.Table;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,11 +12,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.jackbets.mybets.wager.Wager;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,7 +32,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "user_table")
-public class ApplicationUser implements UserDetails{
+public class ApplicationUser implements UserDetails {
 
    @Id
    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
@@ -45,7 +51,9 @@ public class ApplicationUser implements UserDetails{
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
 
-
+    @Getter
+    @OneToMany(mappedBy = "user")
+    private List<Wager> wagers;
 
     public ApplicationUser(AppUserRole appUserRole,
             String password,
@@ -63,6 +71,7 @@ public class ApplicationUser implements UserDetails{
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.isEnabled = isEnabled;
+        this.wagers = new ArrayList<>();
     }
 
     @Override

@@ -5,9 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.jackbets.mybets.auth.ApplicationUser;
 import com.jackbets.mybets.category.Category;
 import com.jackbets.mybets.status.Status;
 
@@ -33,6 +36,11 @@ public class Wager {
     private @Getter @Setter LocalDateTime timePlaced;
     private @Getter @Setter Double toWin;
     private @Getter @Setter Category sportCategory;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private ApplicationUser user;
 
     public Wager() {
     }

@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.jackbets.mybets.auth.ApplicationUser;
+import com.jackbets.mybets.auth.ApplicationUserRepository;
 import com.jackbets.mybets.response.Response;
 import com.jackbets.mybets.status.Status;
 
@@ -14,18 +16,31 @@ import com.jackbets.mybets.status.Status;
 public class WagerService {
 
     private final WagerRepository wagerRepository;
+    private final ApplicationUserRepository appUserRepository;
 
-    public WagerService(WagerRepository wagerRepository) {
+    public WagerService(WagerRepository wagerRepository,
+        ApplicationUserRepository appUserReppsitory) {
+
         this.wagerRepository = wagerRepository;
+        this.appUserRepository = appUserReppsitory;
     }
 
     public List<Wager> getWagers() {
         return wagerRepository.findAll();
     }
 
-    public Response addNewWager(Wager wager) {
+    @Transactional
+    public Response addNewWager(Wager wager, String appUsername) {
         System.out.println("New wager\'s date: " + wager.getTimePlaced());
+
+        ApplicationUser appUser = appUserRepository.findByUsername(appUsername)
+            .orElseThrow(() -> new IllegalArgumentException()); 
+
+        appUser.getWagers().add(wager);
+
+        wager.setUser(appUser);
         Wager newWager = wagerRepository.save(wager);
+
         return new Response(newWager.getId());
     }
 

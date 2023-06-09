@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -73,7 +75,11 @@ public class WagerController {
         wager.setStatus(Status.PENDING);
         double toWin = wager.calcToWin(wager.getUnits(), wager.getTheOdds());
         wager.setToWin(toWin);
-        wagerService.addNewWager(wager);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var loggedInUser = auth.getName();
+
+        wagerService.addNewWager(wager, loggedInUser);
         return "redirect:/wagerlist";
     }
 
