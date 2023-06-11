@@ -12,6 +12,13 @@
         <input type="number" step="any" min="0.1" th:field="*{units}" /></label>
         <label for="odds">Odds:
         <input type="number" th:field="*{theOdds}" /></label>
+        <label>Category:</label>
+        <select th:field="*{category}">
+            <option th:each="categoryOpt : ${T(com.jackbets.mybets.category.Category).values()}"
+                    th:value="${categoryOpt}"
+                    th:text="${categoryOpt.getSport()}">
+            </option>
+        </select>
         <p><input type="submit" value="Submit" /></p>
     </form>
 </body>

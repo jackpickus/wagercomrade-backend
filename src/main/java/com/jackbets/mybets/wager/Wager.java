@@ -35,7 +35,7 @@ public class Wager {
     private @Getter @Setter Status status;
     private @Getter @Setter LocalDateTime timePlaced;
     private @Getter @Setter Double toWin;
-    private @Getter @Setter Category sportCategory;
+    private @Getter @Setter Category category;
 
     @Setter
     @ManyToOne
@@ -46,14 +46,14 @@ public class Wager {
     }
 
     public Wager(String theBet, double units, Integer theOdds, Status status, LocalDateTime timePlaced,
-            Double toWin, Category sportCategory) {
+            Double toWin, Category category) {
         this.theBet = theBet;
         this.units = units;
         this.theOdds = theOdds;
         this.status = status;
         this.timePlaced = timePlaced;
         this.toWin = toWin;
-        this.sportCategory = sportCategory;
+        this.category = category;
     }
 
     double calcToWin(double units, int odds) {
