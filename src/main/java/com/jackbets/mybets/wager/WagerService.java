@@ -33,6 +33,15 @@ public class WagerService {
         return wagers;
     }
 
+    public List<Wager> getWagersWithCategory(String username, Category category) {
+        ApplicationUser appUser = appUserRepository.findByUsername(username)
+            .orElseThrow(() -> new IllegalArgumentException()); 
+
+        var wagers = appUserRepository.getUsersWagersWithCategory(appUser, category); 
+        return wagers;
+
+    }
+
     @Transactional
     public Response addNewWager(Wager wager, String appUsername) {
         System.out.println("New wager\'s date: " + wager.getTimePlaced());

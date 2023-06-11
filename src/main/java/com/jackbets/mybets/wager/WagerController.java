@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.jackbets.mybets.category.Category;
 import com.jackbets.mybets.status.Status;
 
 @Controller
@@ -62,6 +64,21 @@ public class WagerController {
         var wager = wagerService.getWager(wagerId);
         model.addAttribute("wager", wager);
         return "wager";
+    }
+
+    @GetMapping("/wagerlist/{category}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public String getWagersWithCategory(@PathVariable("category") String category, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var loggedInUser = auth.getName();
+
+        var enumCategory = Category.valueOf(category.toUpperCase());
+        var wagers = wagerService.getWagersWithCategory(loggedInUser, enumCategory);
+
+        model.addAttribute("wagers", wagers);
+        model.addAttribute("byTimePlaced", Comparator.comparing(Wager::getTimePlaced).reversed());
+       
+        return "list-wagers";
     }
 
     @GetMapping("/new-wager")

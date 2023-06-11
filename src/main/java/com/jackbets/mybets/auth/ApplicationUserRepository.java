@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jackbets.mybets.category.Category;
 import com.jackbets.mybets.wager.Wager;
 
 @Repository
@@ -18,5 +19,8 @@ public interface ApplicationUserRepository extends JpaRepository<ApplicationUser
 
     @Query(value = "SELECT w from Wager w WHERE w.user = ?1")
     List<Wager> getUsersWagers(ApplicationUser user);
+
+    @Query(value = "SELECT w from Wager w WHERE w.user = ?1 AND w.category = ?2")
+    List<Wager> getUsersWagersWithCategory(ApplicationUser user, Category category);
     
 }
