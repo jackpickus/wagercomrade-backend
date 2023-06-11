@@ -19,6 +19,13 @@
                     th:text="${statusOpt}">
             </option>
         </select>
+        <label>Category:</label>
+        <select th:field="*{category}">
+            <option th:each="categoryOpt : ${T(com.jackbets.mybets.category.Category).values()}"
+                    th:value="${categoryOpt}"
+                    th:text="${categoryOpt.getSport()}">
+            </option>
+        </select>
         <p><input type="submit" value="Submit" /></p>
     </form>
 </body>

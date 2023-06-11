@@ -121,6 +121,9 @@ public class WagerController {
         if (!oldWager.getStatus().equals(updatedWager.getStatus())) {
             hashMap.put("status", updatedWager.getStatus().toString());
         }
+        if (!oldWager.getCategory().equals(updatedWager.getCategory())) {
+            hashMap.put("category", updatedWager.getCategory().toString());
+        }
         if (oddsChanged && unitsChanged) {
             double toWin = updatedWager.calcToWin(updatedWager.getUnits(), updatedWager.getTheOdds());
             String toWinString = String.valueOf(toWin);

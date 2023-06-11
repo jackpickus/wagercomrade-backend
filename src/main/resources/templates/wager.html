@@ -9,6 +9,7 @@
     <p>Units: <span th:text="${wager.units}" /></p>
     <p>To Win: <span th:text="${wager.toWin}" /></p>
     <p>Status: <span th:text="${wager.status}" /></p>
+    <p>Category: <span th:text="${wager.category}" /></p>
     <p>Time: <span th:text="${wager.timePlaced}" /></p>
     <a th:href="@{/edit-wager/{id}(id=${wager.id})}">Edit</a> | 
     <a href="/">Home</a>
