@@ -87,7 +87,7 @@ class WagerServiceTest {
         wagerRepository.save(wager2);
 
         when(wagerRepository.findAll()).thenReturn(wagerList);
-        List<Wager> wagerList2 = wagerService.getWagers();
+        List<Wager> wagerList2 = wagerService.getUsersWagers("username");
         assertEquals(wagerList2, wagerList);
         verify(wagerRepository, times(1)).save(wager1);
         verify(wagerRepository, times(1)).findAll();

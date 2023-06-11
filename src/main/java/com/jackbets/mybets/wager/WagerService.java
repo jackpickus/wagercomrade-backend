@@ -1,10 +1,15 @@
 package com.jackbets.mybets.wager;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.collection.internal.PersistentBag;
 import org.springframework.stereotype.Service;
 
 import com.jackbets.mybets.auth.ApplicationUser;
@@ -25,8 +30,12 @@ public class WagerService {
         this.appUserRepository = appUserReppsitory;
     }
 
-    public List<Wager> getWagers() {
-        return wagerRepository.findAll();
+    public List<Wager> getUsersWagers(String username) {
+        ApplicationUser appUser = appUserRepository.findByUsername(username)
+            .orElseThrow(() -> new IllegalArgumentException()); 
+
+        var wagers = appUserRepository.getUsersWagers(appUser); 
+        return wagers;
     }
 
     @Transactional

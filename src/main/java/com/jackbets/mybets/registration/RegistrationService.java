@@ -28,10 +28,10 @@ public class RegistrationService {
                 request.password(),
                 request.username(),
                 request.email(), 
-                false,
                 true,
-                false,
-                false
+                true,
+                true,
+                true // TODO make false for email verification
             )
         );
 

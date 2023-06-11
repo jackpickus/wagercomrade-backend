@@ -26,8 +26,13 @@ public class WagerController {
     }
 
     @GetMapping({"/wagerlist", "/"})
-    public String getAllWagers(Model model) {
-        var wagers = wagerService.getWagers();
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public String getUsersWagers(Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var loggedInUser = auth.getName();
+
+        var wagers = wagerService.getUsersWagers(loggedInUser);
         model.addAttribute("wagers", wagers);
         model.addAttribute("byTimePlaced", Comparator.comparing(Wager::getTimePlaced).reversed());
 
