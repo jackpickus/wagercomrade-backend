@@ -14,12 +14,19 @@ public class RegistrationService {
 
     private final ApplicationUserService applicationUserService;
     private final EmailValidator emailValidator;
+    private final PasswordValidator passwordValidator;
 
     public String register(RegistrationRequest request) {
         var isValidEmail = emailValidator.test(request.email());
 
+        var isValidPassword = passwordValidator.test(request.password());
+
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
+        }
+
+        if (!isValidPassword) {
+            throw new IllegalStateException("password not valid");
         }
 
         return applicationUserService.signUpUser(
