@@ -11,6 +11,7 @@
     <h3>Units Pending: <span th:text="${unitsPending}" /></h3>
     <a href="/new-wager" id="new-wager">Add a new wager</a>
     <th:block th:if="${#lists.isEmpty(wagers)}">No wagers have been placed</th:block>
+    <p>Filter by Sport</p>
     <table>
         <thead>
             <th>Wager</th>
