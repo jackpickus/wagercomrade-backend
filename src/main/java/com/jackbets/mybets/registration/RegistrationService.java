@@ -29,6 +29,10 @@ public class RegistrationService {
             throw new IllegalStateException("password not valid");
         }
 
+        if (!request.password().equals(request.passwordMatch())) {
+            throw new IllegalStateException("passwords do not match");
+        }
+
         return applicationUserService.signUpUser(
             new ApplicationUser(
                 AppUserRole.ROLE_USER,

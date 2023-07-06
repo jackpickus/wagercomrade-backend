@@ -46,7 +46,7 @@ public class ApplicationSecurityConfig {
         http
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers("/api/v*/registration/**")
+        .antMatchers("/api/v*/**")
         .permitAll()
         .anyRequest()
         .authenticated().and().formLogin();
