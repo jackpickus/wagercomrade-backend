@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <div th:replace="fragments/fragment :: fragment"></div>
+</head>
+<body>
+    <h1>Sign up!</h1>
+    <div class="container">
+        <form action="#" th:action="@{/api/v1/registration}" th:object="${new_user}" method="post">
+            <label for="username">Username:
+                <input type="text" th:field="*{username}" />
+            </label>
+            <label for="email">Email:
+                <input type="email" th:field="*{email}" />
+            </label>
+            <label for="password">Password:
+                <input type="password" th:field="*{password}" />
+            </label>
+            <label for="password">Re-enter Password:
+                <input type="password" th:field="*{passwordMatch}" />
+            </label>
+            <p><input type="submit" value="Sign Up" /></p>
+        </form>
+    </div>
+</body>
+</html>
