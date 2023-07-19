@@ -49,7 +49,15 @@ public class ApplicationSecurityConfig {
         .antMatchers("/api/v*/**")
         .permitAll()
         .anyRequest()
-        .authenticated().and().formLogin();
+        .authenticated()
+        .and()
+        .formLogin()
+        .loginProcessingUrl("/auth")
+        .usernameParameter("username")
+        .passwordParameter("password")
+        .permitAll()
+        .and()
+        .logout().permitAll();
 
         return http.build();
     }
