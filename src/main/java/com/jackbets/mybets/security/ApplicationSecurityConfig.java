@@ -35,29 +35,13 @@ public class ApplicationSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // http
-        //     .csrf().csrfTokenRepository(new CookieCsrfTokenRepository())
-        //     .and()
-        //     .authorizeHttpRequests((authz) -> authz
-        //         .antMatchers(HttpMethod.GET, "/**").permitAll()
-        //         .anyRequest().authenticated()
-        //     )
-        //     .formLogin(withDefaults());
         http
-        .csrf().disable()
-        .authorizeRequests()
-        .antMatchers("/api/v*/**")
-        .permitAll()
-        .anyRequest()
-        .authenticated()
-        .and()
-        .formLogin()
-        .loginProcessingUrl("/auth")
-        .usernameParameter("username")
-        .passwordParameter("password")
-        .permitAll()
-        .and()
-        .logout().permitAll();
+            .csrf().disable()
+            .authorizeHttpRequests((authz) -> authz
+                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .formLogin(withDefaults());
 
         return http.build();
     }
