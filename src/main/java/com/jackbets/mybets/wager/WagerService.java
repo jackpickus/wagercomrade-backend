@@ -26,11 +26,11 @@ public class WagerService {
     }
 
     public List<Wager> getUsersWagers(String username) {
-        ApplicationUser appUser = appUserRepository.findByUsername(username)
-            .orElseThrow(() -> new IllegalArgumentException()); 
+        // ApplicationUser appUser = appUserRepository.findByUsername(username)
+        //     .orElseThrow(() -> new IllegalArgumentException()); 
 
-        var wagers = appUserRepository.getUsersWagers(appUser); 
-        return wagers;
+        // var wagers = appUserRepository.getUsersWagers(appUser); 
+        return wagerRepository.findAll();
     }
 
     public List<Wager> getWagersWithCategory(String username, Category category) {

@@ -3,60 +3,40 @@ package com.jackbets.mybets.wager;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.jackbets.mybets.category.Category;
 import com.jackbets.mybets.status.Status;
 
-@Controller
+@RestController
+@RequestMapping(path = "api/v1/wager")
 public class WagerController {
 
     private final WagerService wagerService;
 
+    @Autowired
     public WagerController(WagerService wagerService) {
         this.wagerService = wagerService;
     }
 
     @GetMapping({"/wagerlist", "/"})
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public String getUsersWagers(Model model) {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        var loggedInUser = auth.getName();
-
-        var wagers = wagerService.getUsersWagers(loggedInUser);
-        model.addAttribute("wagers", wagers);
-        model.addAttribute("byTimePlaced", Comparator.comparing(Wager::getTimePlaced).reversed());
-
-        var unitsPending = 0.0;
-        var units = 0.0;
-        for (Wager w : wagers) {
-            if (w.getStatus().equals(Status.PENDING)) {
-                unitsPending += w.getUnits();
-            } else if (w.getStatus().equals(Status.LOST)){
-                units -= w.getUnits(); 
-            } else if (w.getStatus().equals(Status.WON)) {
-                units += w.getToWin();
-            }
-
-        units = (double)Math.round(units * 100d) / 100d;
-        unitsPending = (double)Math.round(unitsPending * 100d) / 100d;
-
-        model.addAttribute("unitsPending", unitsPending);
-        model.addAttribute("units", units);
-        }
-
-        return "list-wagers";
+    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public List<Wager> getUsersWagers() {
+        var wagers = wagerService.getUsersWagers("user");
+        return wagers;
     }
 
     @GetMapping("/wager/{wagerId}")
