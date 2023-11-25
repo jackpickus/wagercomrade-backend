@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +26,6 @@ public class WagerController {
 
     private final WagerService wagerService;
 
-    @Autowired
     public WagerController(WagerService wagerService) {
         this.wagerService = wagerService;
     }
@@ -39,11 +37,10 @@ public class WagerController {
         return wagers;
     }
 
-    @GetMapping("/wager/{wagerId}")
-    public String getWager(@PathVariable("wagerId") Long wagerId, Model model) {
+    @GetMapping("/{wagerId}")
+    public Wager getWager(@PathVariable("wagerId") Long wagerId) {
         var wager = wagerService.getWager(wagerId);
-        model.addAttribute("wager", wager);
-        return "wager";
+        return wager;
     }
 
     @GetMapping("/wagerlist/{category}")
