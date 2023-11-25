@@ -48,11 +48,11 @@ public class WagerConfig {
                     1.0,
                     Category.MLB);
             Wager bet4 = new Wager(
-                    "Bears ML",
+                    "Tennessee/Missouri O69",
                     2.0,
                     100,
                     Status.PENDING,
-                    LocalDateTime.of(2022, Month.NOVEMBER, 2, 8, 15, 23),
+                    LocalDateTime.of(2022, Month.NOVEMBER, 13, 16, 43, 34),
                     2.0,
                     Category.NFL);
 
