@@ -21,8 +21,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -31,7 +29,6 @@ public class ApplicationSecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
 
-    @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
@@ -40,12 +37,12 @@ public class ApplicationSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(withDefaults()) 
-            .csrf().disable()
-            .authorizeHttpRequests((authz) -> authz
-                .antMatchers(HttpMethod.GET, "/**").permitAll()
-            )
-            .formLogin(withDefaults());
+                .cors(withDefaults())
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests((authz) -> authz
+                                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                )
+                .formLogin(withDefaults());
 
         return http.build();
     }
