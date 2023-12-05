@@ -123,13 +123,4 @@ public class WagerController {
         return wagerService.updateWager(wagerId, hashMap);
     }
 
-    // TODO Delete this method
-    @GetMapping(path = "/edit-wager/{wagerId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String editWager(@PathVariable("wagerId") Long wagerId, Model model) {
-        var wager = wagerService.getWager(wagerId);
-        model.addAttribute("wager", wager);
-        return "edit-wager";
-    }
-
 }
