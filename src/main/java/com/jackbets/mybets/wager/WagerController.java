@@ -61,13 +61,6 @@ public class WagerController {
         return "list-wagers";
     }
 
-    @GetMapping("/new-wager")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String newWagerForm(Model model) {
-        model.addAttribute("new_wager", new Wager());
-        return "new-wager";
-    }
-
     @PostMapping(path = "/new-wager")
     public Response placeNewWager(@RequestBody Wager wager) {
         var localDateTime = LocalDateTime.now();
