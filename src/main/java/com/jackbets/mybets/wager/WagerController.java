@@ -11,14 +11,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jackbets.mybets.category.Category;
+import com.jackbets.mybets.response.Response;
 import com.jackbets.mybets.status.Status;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping(path = "api/v1/wager")
@@ -83,17 +86,13 @@ public class WagerController {
         wagerService.deleteWager(wagerId);
     }
 
-    @PostMapping(path = "/wager/{wagerId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String updateWager(@PathVariable("wagerId") Long wagerId, @ModelAttribute Wager updatedWager, Model model) {
-        model.addAttribute("wager", updatedWager);
+    @PutMapping(path = "/edit/{wagerId}")
+    public Response updateWager(@PathVariable("wagerId") Long wagerId, @RequestBody Wager updatedWager) {
         var oldWager = wagerService.getWager(wagerId);
         var hashMap = new HashMap<String, String>();
         var oddsChanged = false;
         var unitsChanged = false;
-        if (updatedWager.equals(oldWager)) {
-            return "redirect:/wagerlist";
-        }
+
         if (!oldWager.getTheBet().equals(updatedWager.getTheBet())) {
             hashMap.put("theBet", updatedWager.getTheBet());
         }
@@ -126,10 +125,11 @@ public class WagerController {
             hashMap.put("toWin", toWinString);
 
         }
-        wagerService.updateWager(wagerId, hashMap);
-        return "redirect:/wager/{wagerId}";
+
+        return wagerService.updateWager(wagerId, hashMap);
     }
 
+    // TODO Delete this method
     @GetMapping(path = "/edit-wager/{wagerId}")
     @PreAuthorize("hasRole('ADMIN')")
     public String editWager(@PathVariable("wagerId") Long wagerId, Model model) {

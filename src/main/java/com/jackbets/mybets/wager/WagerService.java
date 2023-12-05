@@ -63,7 +63,7 @@ public class WagerService {
     }
 
     @Transactional
-    public void updateWager(Long wagerId, HashMap<String, String> hmap) {
+    public Response updateWager(Long wagerId, HashMap<String, String> hmap) {
         Wager wager = wagerRepository.findById(wagerId)
                 .orElseThrow(() -> new WagerNotFoundException(wagerId));
 
@@ -100,6 +100,8 @@ public class WagerService {
                     break;
             }
         });
+
+        return new Response(wager.getId());
     }
 
     public Wager getWager(Long wagerId) {
