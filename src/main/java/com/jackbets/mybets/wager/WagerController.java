@@ -66,20 +66,14 @@ public class WagerController {
     }
 
     @PostMapping(path = "/new-wager")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String placeNewWager(@ModelAttribute Wager wager, Model model) {
-        model.addAttribute("new_wager", wager);
+    public Response placeNewWager(@RequestBody Wager wager) {
         var localDateTime = LocalDateTime.now();
         wager.setTimePlaced(localDateTime);
         wager.setStatus(Status.PENDING);
         double toWin = wager.calcToWin(wager.getUnits(), wager.getTheOdds());
         wager.setToWin(toWin);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        var loggedInUser = auth.getName();
-
-        wagerService.addNewWager(wager, loggedInUser);
-        return "redirect:/wagerlist";
+        return wagerService.addNewWager(wager);
     }
 
     // TODO Allow wagers to be deleted?

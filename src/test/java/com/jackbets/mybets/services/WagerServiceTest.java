@@ -77,7 +77,7 @@ class WagerServiceTest {
     @Test
     public void givenWagerToAddShouldReturnAddedWager() {
         when(wagerRepository.save(any())).thenReturn(wager1);
-        wagerService.addNewWager(wager1, "username");
+        wagerService.addNewWager(wager1);
         verify(wagerRepository, times(1)).save(any());
     }
 

@@ -42,14 +42,10 @@ public class WagerService {
 
     }
 
-    @Transactional
-    public Response addNewWager(Wager wager, String appUsername) {
+    public Response addNewWager(Wager wager) {
         System.out.println("New wager\'s date: " + wager.getTimePlaced());
 
-        ApplicationUser appUser = appUserRepository.findByUsername(appUsername)
-            .orElseThrow(() -> new IllegalArgumentException()); 
-
-        appUser.getWagers().add(wager);
+        var appUser = appUserRepository.getReferenceById(1L); // This is dummy data and must be removed!!
 
         wager.setUser(appUser);
         Wager newWager = wagerRepository.save(wager);
