@@ -74,9 +74,8 @@ public class WagerController {
         return wagerService.addNewWager(wager);
     }
 
-    // TODO Allow wagers to be deleted?
     @DeleteMapping(path = "/{wagerId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public void deleteWager(@PathVariable("wagerId") Long wagerId) {
         wagerService.deleteWager(wagerId);
     }
