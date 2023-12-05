@@ -36,6 +36,7 @@ public class WagerController {
     @GetMapping({"/wagerlist", "/"})
     // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<Wager> getUsersWagers() {
+        // THIS NEEDS TO BE ALTERED!!
         var wagers = wagerService.getUsersWagers("user");
         return wagers;
     }
