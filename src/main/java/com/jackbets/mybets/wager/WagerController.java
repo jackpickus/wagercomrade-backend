@@ -66,6 +66,7 @@ public class WagerController {
         var localDateTime = LocalDateTime.now();
         wager.setTimePlaced(localDateTime);
         wager.setStatus(Status.PENDING);
+        wager.setCategory(Category.COLLEGE_BASKETBALL); // This is placeholder!!
         double toWin = wager.calcToWin(wager.getUnits(), wager.getTheOdds());
         wager.setToWin(toWin);
 
