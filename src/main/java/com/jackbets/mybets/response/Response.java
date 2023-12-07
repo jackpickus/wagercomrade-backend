@@ -8,9 +8,9 @@ public class Response {
     private @Getter @Setter Long wagerIdNumber;
     private @Getter @Setter String statusMessage;
 
-    public Response(Long id) {
+    public Response(Long id, String statusMessage) {
         this.wagerIdNumber= id;
-        this.statusMessage = "Wager created successfully";
+        this.statusMessage = statusMessage;
     }
 
 }
