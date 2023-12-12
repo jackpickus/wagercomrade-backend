@@ -38,11 +38,11 @@ public class ApplicationSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(withDefaults())
-                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authz) -> authz
                                 .antMatchers(HttpMethod.GET, "/**").permitAll()
                 )
-                .formLogin(withDefaults());
+                .formLogin(withDefaults())
+                .oauth2ResourceServer(server -> server.jwt());
 
         return http.build();
     }
