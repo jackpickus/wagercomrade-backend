@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +23,6 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
@@ -38,11 +37,13 @@ public class ApplicationSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(withDefaults())
-                .authorizeHttpRequests((authz) -> authz
-                                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                .authorizeHttpRequests((authorize) -> authorize
+                    .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 )
                 .formLogin(withDefaults())
-                .oauth2ResourceServer(server -> server.jwt());
+                .oauth2ResourceServer((oauth2) -> oauth2
+                    .jwt(Customizer.withDefaults())
+                );
 
         return http.build();
     }

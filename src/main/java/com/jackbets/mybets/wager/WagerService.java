@@ -2,8 +2,6 @@ package com.jackbets.mybets.wager;
 
 import java.util.HashMap;
 import java.util.List;
-import javax.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
 
 import com.jackbets.mybets.auth.ApplicationUser;
@@ -11,6 +9,8 @@ import com.jackbets.mybets.auth.ApplicationUserRepository;
 import com.jackbets.mybets.category.Category;
 import com.jackbets.mybets.response.Response;
 import com.jackbets.mybets.status.Status;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class WagerService {
