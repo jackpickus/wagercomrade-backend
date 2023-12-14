@@ -40,10 +40,7 @@ public class ApplicationSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                     .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 )
-                .formLogin(withDefaults())
-                .oauth2ResourceServer((oauth2) -> oauth2
-                    .jwt(Customizer.withDefaults())
-                );
+                .formLogin(withDefaults());
 
         return http.build();
     }
