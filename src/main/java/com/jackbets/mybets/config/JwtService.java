@@ -7,8 +7,9 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.jackbets.mybets.auth.ApplicationUser;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -30,23 +31,23 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(ApplicationUser applicationUser) {
+        return generateToken(new HashMap<>(), applicationUser);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, ApplicationUser applicationUser) {
         return Jwts.builder()
         .claims(extraClaims)
-        .subject(userDetails.getUsername())
+        .subject(applicationUser.getUsername())
         .issuedAt(new Date(System.currentTimeMillis()))
         .expiration(new Date(System.currentTimeMillis() + 1000 * 60 *24))
         .signWith(getSignInKey(), SIG.HS256)
         .compact();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, ApplicationUser applicationUser) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return (username.equals(applicationUser.getUsername())) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
