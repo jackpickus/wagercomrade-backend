@@ -63,13 +63,13 @@ public class RegistrationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                request.email(),
+                request.username(),
                 request.password()
             )
         );
 
         // if we are here means username and password are correct
-        var appUser = applicationUserRepository.findByUsername(request.email());
+        var appUser = applicationUserRepository.findByUsername(request.username());
         var jwtToken = jwtService.generateToken(appUser.get());
         return AuthenticationResponse.builder()
             .token(jwtToken)

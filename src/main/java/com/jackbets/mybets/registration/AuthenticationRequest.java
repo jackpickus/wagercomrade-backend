@@ -3,12 +3,12 @@ package com.jackbets.mybets.registration;
 import java.util.Objects;
 
 public record AuthenticationRequest(
-    String email,
+    String username,
     String password
     ) {
 
     public AuthenticationRequest {
-        Objects.requireNonNull(email);
+        Objects.requireNonNull(username);
         Objects.requireNonNull(password);
     }
 
