@@ -13,14 +13,11 @@ import com.jackbets.mybets.auth.ApplicationUser;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.Jwts.SIG;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "09f329e636721b5d881eb32e0cdbd1413e76e900e60903a3c0bc459569c3200d";
+    private SecretKey secretKey = Jwts.SIG.HS256.key().build();
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -41,7 +38,7 @@ public class JwtService {
         .subject(applicationUser.getUsername())
         .issuedAt(new Date(System.currentTimeMillis()))
         .expiration(new Date(System.currentTimeMillis() + 1000 * 60 *24))
-        .signWith(getSignInKey(), SIG.HS256)
+        .signWith(this.secretKey)
         .compact();
     }
 
@@ -61,15 +58,10 @@ public class JwtService {
     private Claims extractAllCliams(String token) {
         return Jwts
             .parser()
-            .verifyWith(getSignInKey())
+            .verifyWith(this.secretKey)
             .build()
             .parseSignedClaims(token)
             .getPayload();
-    }
-
-    private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 
 }
