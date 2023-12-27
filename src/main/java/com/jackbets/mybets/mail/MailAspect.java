@@ -1,6 +1,6 @@
 package com.jackbets.mybets.mail;
 
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,7 +21,7 @@ public class MailAspect {
         this.mailSender = mailSender;
     }
     
-    @After("@annotation(ConfirmRegister)")
+    @AfterReturning("@annotation(ConfirmRegister)")
     public Object SendRegistrationEmail() {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
