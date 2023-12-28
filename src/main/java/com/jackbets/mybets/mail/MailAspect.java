@@ -7,6 +7,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
 
+import jakarta.mail.Message;
+import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
@@ -21,23 +23,31 @@ public class MailAspect {
         this.mailSender = mailSender;
     }
     
+    // Our pointcut just says, ‘Apply this advice to any method annotated with @ConfirmRegister
     @AfterReturning("@annotation(ConfirmRegister)")
-    public Object SendRegistrationEmail() {
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                mimeMessage.setRecipient(null, null);
-                mimeMessage.setFrom(new InternetAddress("mail@pizzaland.com"));
-                mimeMessage.setText("Confirm your sign up");
-            }
-        };
-
+    public void SendRegistrationEmail() throws Throwable {
+        var emailArgs = "email@email.com";
         try {
-            this.mailSender.send(preparator);
-        } catch (MailException ex) {
+            var emailAddress = new InternetAddress(emailArgs.toString());
+            MimeMessagePreparator preparator = new MimeMessagePreparator() {
+                public void prepare(MimeMessage mimeMessage) throws Exception {
+                    mimeMessage.setRecipient(Message.RecipientType.TO, emailAddress);
+                    mimeMessage.setFrom(new InternetAddress("mail@pizzaland.com"));
+                    mimeMessage.setText("Confirm your sign up");
+                }
+            };
+            try {
+                System.out.println(preparator.toString());
+                System.out.println("\n\nSend the sign up email\n\n");
+                this.mailSender.send(preparator);
+            } catch (MailException mailEx) {
+                // TODO: handle exception
+                System.err.println(mailEx.getMessage());
+            }
+        } catch (AddressException ex) {
             // TODO: handle exception
             System.err.println(ex.getMessage());
         }
-        return null;
     }
 
 }
