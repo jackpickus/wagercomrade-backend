@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jackbets.mybets.mail.ConfirmRegister;
+
 @Service
 public class ApplicationUserService implements UserDetailsService{
 
@@ -28,6 +30,7 @@ public class ApplicationUserService implements UserDetailsService{
                 new UsernameNotFoundException(String.format("Username %s not found", username)));
     }
 
+    @ConfirmRegister
     public String signUpUser(ApplicationUser applicationUser) {
 
         var userExists = applicationUserDao.selectApplicationUserByUsername(applicationUser.getUsername()).isPresent();
