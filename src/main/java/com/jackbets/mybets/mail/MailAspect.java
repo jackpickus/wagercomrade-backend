@@ -2,6 +2,7 @@ package com.jackbets.mybets.mail;
 
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -17,12 +18,8 @@ import jakarta.mail.internet.MimeMessage;
 @Component
 public class MailAspect {
 
-    // ! THIS IS NULL
+    @Autowired
     private JavaMailSender mailSender;
-
-    public void setMailSender(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
     
     // Our pointcut just says, apply this advice to any method annotated with @SendEmailConfirmation
     @AfterReturning("@annotation(SendEmailConfirmation)")
@@ -38,7 +35,6 @@ public class MailAspect {
                 }
             };
             try {
-                System.out.println(preparator.toString());
                 System.out.println("\n\nSend the sign up email\n\n");
                 this.mailSender.send(preparator);
             } catch (MailException mailEx) {

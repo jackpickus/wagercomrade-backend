@@ -41,7 +41,7 @@ public class ApplicationSecurityConfig {
                 .cors(withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
                                 .requestMatchers("api/v1/registration/**").permitAll()
-                                .requestMatchers(HttpMethod.GET).permitAll()
+                                .requestMatchers(HttpMethod.GET).permitAll() // ! THIS IS ONLY FOR DEVELOPMENT
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(management -> management
