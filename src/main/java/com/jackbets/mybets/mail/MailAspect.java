@@ -17,15 +17,16 @@ import jakarta.mail.internet.MimeMessage;
 @Component
 public class MailAspect {
 
+    // ! THIS IS NULL
     private JavaMailSender mailSender;
 
     public void setMailSender(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
     
-    // Our pointcut just says, ‘Apply this advice to any method annotated with @ConfirmRegister
-    @AfterReturning("@annotation(ConfirmRegister)")
-    public void SendRegistrationEmail() throws Throwable {
+    // Our pointcut just says, apply this advice to any method annotated with @SendEmailConfirmation
+    @AfterReturning("@annotation(SendEmailConfirmation)")
+    public void sendConfirmRegistrationEmail() throws Throwable {
         var emailArgs = "email@email.com";
         try {
             var emailAddress = new InternetAddress(emailArgs.toString());
