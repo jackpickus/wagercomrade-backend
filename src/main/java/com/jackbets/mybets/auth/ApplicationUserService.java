@@ -1,5 +1,8 @@
 package com.jackbets.mybets.auth;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,18 +11,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jackbets.mybets.mail.SendEmailConfirmation;
+import com.jackbets.mybets.registration.token.ConfirmationToken;
+import com.jackbets.mybets.registration.token.ConfirmationTokenService;
 
 @Service
 public class ApplicationUserService implements UserDetailsService{
 
     private final ApplicationUserDao applicationUserDao;
     private final PasswordEncoder passwordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
     public ApplicationUserService(@Qualifier("postgresbets") ApplicationUserDao applicationUserDao,
-        PasswordEncoder passwordEncoder) {
+        PasswordEncoder passwordEncoder,
+        ConfirmationTokenService confirmationTokenService) {
 
         this.applicationUserDao = applicationUserDao;
         this.passwordEncoder = passwordEncoder;
+        this.confirmationTokenService = confirmationTokenService;
     }
 
     @Override
@@ -45,9 +53,17 @@ public class ApplicationUserService implements UserDetailsService{
 
         applicationUserDao.save(applicationUser);
 
-        // TODO send confirmation token
+        var token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+            token,
+            LocalDateTime.now(),
+            LocalDateTime.now().plusMinutes(15), // should put num in config file
+            applicationUser 
+        );
 
-        return "signUpUser() works!";
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+
+        return token;
     }
     
 }
