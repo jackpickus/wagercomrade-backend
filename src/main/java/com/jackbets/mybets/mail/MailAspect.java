@@ -22,20 +22,20 @@ public class MailAspect {
     private JavaMailSender mailSender;
     
     // Our pointcut just says, apply this advice to any method annotated with @SendEmailConfirmation
-    @AfterReturning("@annotation(SendEmailConfirmation)")
-    public void sendConfirmRegistrationEmail() throws Throwable {
-        var emailArgs = "email@email.com";
+    @AfterReturning(pointcut = "@annotation(SendEmailConfirmation)", returning = "emailInfo")
+    public void sendConfirmRegistrationEmail(MailInfo emailInfo) throws Throwable {
+        var userEmail = emailInfo.email();
+        var token = emailInfo.token();
         try {
-            var emailAddress = new InternetAddress(emailArgs.toString());
+            var emailAddress = new InternetAddress(userEmail);
             MimeMessagePreparator preparator = new MimeMessagePreparator() {
                 public void prepare(MimeMessage mimeMessage) throws Exception {
                     mimeMessage.setRecipient(Message.RecipientType.TO, emailAddress);
                     mimeMessage.setFrom(new InternetAddress("mail@pizzaland.com"));
-                    mimeMessage.setText("Confirm your sign up");
+                    mimeMessage.setText("Confirm your sign up using the token: " + token + "\nIt will expire in 15 minutes.");
                 }
             };
             try {
-                System.out.println("\n\nSend the sign up email\n\n");
                 this.mailSender.send(preparator);
             } catch (MailException mailEx) {
                 // TODO: handle exception

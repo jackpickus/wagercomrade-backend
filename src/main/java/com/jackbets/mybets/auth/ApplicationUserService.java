@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jackbets.mybets.mail.MailInfo;
 import com.jackbets.mybets.mail.SendEmailConfirmation;
 import com.jackbets.mybets.registration.token.ConfirmationToken;
 import com.jackbets.mybets.registration.token.ConfirmationTokenService;
@@ -39,7 +40,7 @@ public class ApplicationUserService implements UserDetailsService{
     }
 
     @SendEmailConfirmation
-    public String signUpUser(ApplicationUser applicationUser) {
+    public MailInfo signUpUser(ApplicationUser applicationUser) {
 
         var userExists = applicationUserDao.selectApplicationUserByUsername(applicationUser.getUsername()).isPresent();
 
@@ -63,7 +64,7 @@ public class ApplicationUserService implements UserDetailsService{
 
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-        return token;
+        return new MailInfo(applicationUser.getEmail(), token);
     }
     
 }
