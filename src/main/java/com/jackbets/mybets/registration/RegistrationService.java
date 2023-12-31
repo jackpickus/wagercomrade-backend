@@ -56,6 +56,7 @@ public class RegistrationService {
 
         return AuthenticationResponse.builder()
             .token(jwtToken)
+            .username(appUser.getUsername())
             .build();
 
     }
