@@ -1,5 +1,7 @@
 package com.jackbets.mybets.registration.token;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -12,6 +14,10 @@ public class ConfirmationTokenService {
 
     public void saveConfirmationToken(ConfirmationToken token) {
         confirmationTokenRepository.save(token);
+    }
+
+    public Optional<ConfirmationToken> getToken(String token) {
+        return confirmationTokenRepository.findByToken(token);
     }
     
 }
