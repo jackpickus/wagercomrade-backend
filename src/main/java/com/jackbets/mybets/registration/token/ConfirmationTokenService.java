@@ -1,5 +1,6 @@
 package com.jackbets.mybets.registration.token;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -18,6 +19,14 @@ public class ConfirmationTokenService {
 
     public Optional<ConfirmationToken> getToken(String token) {
         return confirmationTokenRepository.findByToken(token);
+    }
+
+    public void setConfirmedAt(String token) {
+        var confirmationTokenOptional = getToken(token);
+        if (confirmationTokenOptional.isPresent()) {
+            var confirmationToken = confirmationTokenOptional.get();
+            confirmationToken.setConfirmedAt(LocalDateTime.now());
+        }
     }
     
 }

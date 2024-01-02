@@ -1,5 +1,7 @@
 package com.jackbets.mybets.registration;
 
+import java.time.LocalDateTime;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -9,7 +11,9 @@ import com.jackbets.mybets.auth.ApplicationUser;
 import com.jackbets.mybets.auth.ApplicationUserRepository;
 import com.jackbets.mybets.auth.ApplicationUserService;
 import com.jackbets.mybets.config.JwtService;
+import com.jackbets.mybets.registration.token.ConfirmationTokenService;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -22,6 +26,7 @@ public class RegistrationService {
     private final PasswordValidator passwordValidator;
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
+    private final ConfirmationTokenService confirmationTokenService;
 
     public AuthenticationResponse register(RegistrationRequest request) {
         var isValidEmail = emailValidator.test(request.email());
@@ -47,7 +52,7 @@ public class RegistrationService {
                 true,
                 true,
                 true,
-                true // TODO make false for email verification
+                false // TODO make false for email verification
             );
 
         var jwtToken = jwtService.generateToken(appUser);
@@ -76,6 +81,27 @@ public class RegistrationService {
             .token(jwtToken)
             .username(appUser.get().getUsername())
             .build();
+    }
+
+    @Transactional
+    public String confirmToken(String token) {
+        var confirmationToken = confirmationTokenService
+                .getToken(token)
+                .orElseThrow(() -> new IllegalStateException("token not found"));
+
+        if (confirmationToken.getConfirmedAt() != null) {
+            throw new IllegalStateException("email already confirmed");
+        }
+
+        var expiredAt = confirmationToken.getExpiresAt();
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("token has expired");
+        }
+
+        confirmationTokenService.setConfirmedAt(token);
+        applicationUserService.enableAppUser(confirmationToken.getAppUser().getUsername());
+
+        return "registration confirmed";
     }
 
 }
