@@ -99,9 +99,11 @@ public class RegistrationService {
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        applicationUserService.enableAppUser(confirmationToken.getAppUser().getUsername());
-
-        return "registration confirmed";
+        var userIsEnabled = applicationUserService.enableAppUser(confirmationToken.getAppUser().getUsername());
+        if (userIsEnabled) {
+            return "registration confirmed";
+        }
+        return "registration failed";
     }
 
 }

@@ -67,12 +67,14 @@ public class ApplicationUserService implements UserDetailsService{
         return new MailInfo(applicationUser.getEmail(), token);
     }
 
-    public void enableAppUser(String username) {
+    public boolean enableAppUser(String username) {
         var appUserOptional = applicationUserDao.selectApplicationUserByUsername(username);
         if (appUserOptional.isPresent()) {
             var appUser = appUserOptional.get();
             appUser.setEnabled(true);
+            return true;
         }
+        return false;
     }
     
 }
