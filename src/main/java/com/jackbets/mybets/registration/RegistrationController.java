@@ -32,7 +32,7 @@ public class RegistrationController {
             return ResponseEntity.ok(registrationService.authenticate(request));
     }
 
-    @GetMapping("/confirm/registration")
+    @GetMapping("/confirm")
     public String getMethodName(@RequestParam("token") String confirmationToken) {
         return registrationService.confirmToken(confirmationToken);
     }
