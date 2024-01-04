@@ -30,9 +30,13 @@ public class MailAspect {
             var emailAddress = new InternetAddress(userEmail);
             MimeMessagePreparator preparator = new MimeMessagePreparator() {
                 public void prepare(MimeMessage mimeMessage) throws Exception {
+                    mimeMessage.setSubject("Confirm your email");
                     mimeMessage.setRecipient(Message.RecipientType.TO, emailAddress);
                     mimeMessage.setFrom(new InternetAddress("mail@pizzaland.com"));
-                    mimeMessage.setText("Confirm your sign up using the token: " + token + "\nIt will expire in 15 minutes.");
+                    mimeMessage.setText(
+                        "Confirm your sign up using the token: " + token + "\nIt will expire in 15 minutes.", 
+                        "utf-8",
+                        "html");
                 }
             };
             try {
