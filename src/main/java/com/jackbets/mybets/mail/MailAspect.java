@@ -37,7 +37,7 @@ public class MailAspect {
                 }
             };
             try {
-                this.mailSender.send(preparator);
+                mailSender.send(preparator);
             } catch (MailException mailEx) {
                 // TODO: handle exception
                 System.err.println(mailEx.getMessage());
