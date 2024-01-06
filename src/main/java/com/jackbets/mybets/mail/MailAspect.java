@@ -36,7 +36,7 @@ public class MailAspect {
                     mimeMessage.setText(
                         "Confirm your sign up using the token: " + token + "\nIt will expire in 15 minutes.", 
                         "utf-8",
-                        "html");
+                        "text/html");
                 }
             };
             try {
