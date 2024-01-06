@@ -30,13 +30,10 @@ public class MailAspect {
             var emailAddress = new InternetAddress(userEmail);
             MimeMessagePreparator preparator = new MimeMessagePreparator() {
                 public void prepare(MimeMessage mimeMessage) throws Exception {
-                    mimeMessage.setSubject("Confirm your email");
+                    mimeMessage.setSubject("Confirm Account");
                     mimeMessage.setRecipient(Message.RecipientType.TO, emailAddress);
-                    mimeMessage.setFrom(new InternetAddress("mail@pizzaland.com"));
-                    mimeMessage.setText(
-                        "Confirm your sign up using the token: " + token + "\nIt will expire in 15 minutes.", 
-                        "utf-8",
-                        "text/html");
+                    mimeMessage.setFrom(new InternetAddress("admin@wagercomrade.com"));
+                    mimeMessage.setText(createEmail(token), "utf-8", "text/plain");
                 }
             };
             try {
@@ -49,6 +46,17 @@ public class MailAspect {
             // TODO: handle exception
             System.err.println(ex.getMessage());
         }
+    }
+
+    private String createEmail(String token) {
+        var message = 
+            "\n\n\nPlease use the code to confirm your account: " + token 
+            + "\n\nThis code will expire in 15 minutes"
+            + "\n\nIf the code has expired please visit the login page and login using your username and password"
+            + "and a new code will be sent."
+            + "\n\n- the Wager Comrade team";
+
+        return message;
     }
 
 }
