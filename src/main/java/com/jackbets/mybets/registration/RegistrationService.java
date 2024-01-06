@@ -1,6 +1,7 @@
 package com.jackbets.mybets.registration;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +12,8 @@ import com.jackbets.mybets.auth.ApplicationUser;
 import com.jackbets.mybets.auth.ApplicationUserRepository;
 import com.jackbets.mybets.auth.ApplicationUserService;
 import com.jackbets.mybets.config.JwtService;
+import com.jackbets.mybets.mail.MailInfo;
+import com.jackbets.mybets.mail.SendEmailConfirmation;
 import com.jackbets.mybets.registration.token.ConfirmationTokenService;
 
 import jakarta.transaction.Transactional;
@@ -52,15 +55,14 @@ public class RegistrationService {
                 true,
                 true,
                 true,
-                false // TODO make false for email verification
+                false
             );
 
-        var jwtToken = jwtService.generateToken(appUser);
+        // var jwtToken = jwtService.generateToken(appUser);
 
         applicationUserService.signUpUser(appUser);
 
         return AuthenticationResponse.builder()
-            .token(jwtToken)
             .username(appUser.getUsername())
             .build();
 
@@ -76,11 +78,28 @@ public class RegistrationService {
 
         // if we are here means username and password are correct
         var appUser = applicationUserRepository.findByUsername(request.username());
-        var jwtToken = jwtService.generateToken(appUser.get());
-        return AuthenticationResponse.builder()
-            .token(jwtToken)
-            .username(appUser.get().getUsername())
-            .build();
+
+        if (appUser.get().isEnabled()) {
+            var jwtToken = jwtService.generateToken(appUser.get());
+            return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .username(appUser.get().getUsername())
+                .build();
+        } else {
+            resendEmail(appUser.get());
+            throw new IllegalStateException("User account is not enabled");
+            // return AuthenticationResponse.builder()
+            //     .token("string")
+            //     .username(appUser.get().getUsername())
+            //     .build();
+        }
+
+    }
+
+    @SendEmailConfirmation
+    private MailInfo resendEmail(ApplicationUser appUser) {
+        var token = UUID.randomUUID().toString();
+        return new MailInfo(appUser.getEmail(), token);
     }
 
     @Transactional
