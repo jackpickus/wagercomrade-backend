@@ -14,6 +14,7 @@ import com.jackbets.mybets.auth.ApplicationUserService;
 import com.jackbets.mybets.config.JwtService;
 import com.jackbets.mybets.mail.MailInfo;
 import com.jackbets.mybets.mail.SendEmailConfirmation;
+import com.jackbets.mybets.registration.token.ConfirmationToken;
 import com.jackbets.mybets.registration.token.ConfirmationTokenService;
 
 import jakarta.transaction.Transactional;
@@ -99,6 +100,14 @@ public class RegistrationService {
     @SendEmailConfirmation
     private MailInfo resendEmail(ApplicationUser appUser) {
         var token = UUID.randomUUID().toString();
+        var confirmationToken = new ConfirmationToken(
+            token,
+            LocalDateTime.now(),
+            LocalDateTime.now().plusMinutes(15), // should put num in config file
+            appUser 
+        );
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+
         return new MailInfo(appUser.getEmail(), token);
     }
 
