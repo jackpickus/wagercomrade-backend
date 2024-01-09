@@ -97,7 +97,8 @@ public class RegistrationService {
 
     }
 
-    @SendEmailConfirmation
+    // TODO Enable emails
+    // @SendEmailConfirmation
     private MailInfo resendEmail(ApplicationUser appUser) {
         var token = UUID.randomUUID().toString();
         var confirmationToken = new ConfirmationToken(

@@ -39,7 +39,8 @@ public class ApplicationUserService implements UserDetailsService{
                 new UsernameNotFoundException(String.format("Username %s not found", username)));
     }
 
-    @SendEmailConfirmation
+    // TODO Enable emails
+    // @SendEmailConfirmation
     public MailInfo signUpUser(ApplicationUser applicationUser) {
 
         var userExists = applicationUserDao.selectApplicationUserByUsername(applicationUser.getUsername()).isPresent();
