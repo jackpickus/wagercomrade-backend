@@ -13,7 +13,6 @@ import com.jackbets.mybets.auth.ApplicationUserRepository;
 import com.jackbets.mybets.auth.ApplicationUserService;
 import com.jackbets.mybets.config.JwtService;
 import com.jackbets.mybets.mail.MailInfo;
-import com.jackbets.mybets.mail.SendEmailConfirmation;
 import com.jackbets.mybets.registration.token.ConfirmationToken;
 import com.jackbets.mybets.registration.token.ConfirmationTokenService;
 
@@ -70,6 +69,13 @@ public class RegistrationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        var appUser = applicationUserRepository.findByUsername(request.username());
+        boolean appUserIsEnabled = appUser.get().isEnabled();
+
+        if (!appUserIsEnabled) {
+            resendEmail(appUser.get());
+        }
+
         authManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 request.username(),
@@ -78,8 +84,6 @@ public class RegistrationService {
         );
 
         // if we are here means username and password are correct
-        var appUser = applicationUserRepository.findByUsername(request.username());
-
         if (appUser.get().isEnabled()) {
             var jwtToken = jwtService.generateToken(appUser.get());
             return AuthenticationResponse.builder()
@@ -100,6 +104,16 @@ public class RegistrationService {
     // TODO Enable emails
     // @SendEmailConfirmation
     private MailInfo resendEmail(ApplicationUser appUser) {
+        var usersTokensOptinal = confirmationTokenService.getUsersTokens(appUser); 
+        if (usersTokensOptinal.isPresent()) {
+            var usersTokensList = usersTokensOptinal.get();
+            for (ConfirmationToken cToken : usersTokensList) {
+                var expiredAt = cToken.getExpiresAt();
+                if (expiredAt.isAfter(LocalDateTime.now())) {
+                    cToken.setValid(false);
+                }
+            }
+        }
         var token = UUID.randomUUID().toString();
         var confirmationToken = new ConfirmationToken(
             token,
@@ -120,6 +134,10 @@ public class RegistrationService {
 
         if (confirmationToken.getConfirmedAt() != null) {
             throw new IllegalStateException("email already confirmed");
+        }
+
+        if (!confirmationToken.isValid()) {
+            throw new IllegalStateException("token is no longer valid most likely cause a new one was requested");
         }
 
         var expiredAt = confirmationToken.getExpiresAt();

@@ -37,6 +37,9 @@ public class ConfirmationToken {
     @Column(nullable = false)
     private LocalDateTime expiresAt;
 
+    @Column(nullable = false)
+    private boolean isValid;
+
     private LocalDateTime confirmedAt;
 
     @ManyToOne
@@ -54,6 +57,7 @@ public class ConfirmationToken {
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
         this.appUser = appUser;
+        this.isValid = true;
     }
 
 }

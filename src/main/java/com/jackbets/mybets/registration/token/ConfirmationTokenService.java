@@ -1,9 +1,12 @@
 package com.jackbets.mybets.registration.token;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
+import com.jackbets.mybets.auth.ApplicationUser;
 
 import lombok.AllArgsConstructor;
 
@@ -26,7 +29,12 @@ public class ConfirmationTokenService {
         if (confirmationTokenOptional.isPresent()) {
             var confirmationToken = confirmationTokenOptional.get();
             confirmationToken.setConfirmedAt(LocalDateTime.now());
+            confirmationToken.setValid(false);
         }
+    }
+
+    public Optional<List<ConfirmationToken>> getUsersTokens(ApplicationUser appUser) {
+        return confirmationTokenRepository.getUsersTokens(appUser);
     }
     
 }

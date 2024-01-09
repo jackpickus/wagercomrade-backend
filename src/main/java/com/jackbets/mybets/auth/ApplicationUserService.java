@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jackbets.mybets.mail.MailInfo;
-import com.jackbets.mybets.mail.SendEmailConfirmation;
 import com.jackbets.mybets.registration.token.ConfirmationToken;
 import com.jackbets.mybets.registration.token.ConfirmationTokenService;
 
