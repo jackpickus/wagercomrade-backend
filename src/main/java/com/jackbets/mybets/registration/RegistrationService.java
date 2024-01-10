@@ -14,6 +14,7 @@ import com.jackbets.mybets.auth.ApplicationUserService;
 import com.jackbets.mybets.config.JwtService;
 import com.jackbets.mybets.mail.MailInfo;
 import com.jackbets.mybets.registration.token.ConfirmationToken;
+import com.jackbets.mybets.registration.token.ConfirmationTokenException;
 import com.jackbets.mybets.registration.token.ConfirmationTokenService;
 
 import jakarta.transaction.Transactional;
@@ -130,19 +131,22 @@ public class RegistrationService {
     public String confirmToken(String token) {
         var confirmationToken = confirmationTokenService
                 .getToken(token)
-                .orElseThrow(() -> new IllegalStateException("token not found"));
+                .orElseThrow(() -> {
+                    // log error
+                    return new ConfirmationTokenException();
+                });
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
+            throw new ConfirmationTokenException();
         }
 
         if (!confirmationToken.isValid()) {
-            throw new IllegalStateException("token is no longer valid most likely cause a new one was requested");
+            throw new ConfirmationTokenException();
         }
 
         var expiredAt = confirmationToken.getExpiresAt();
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token has expired");
+            throw new ConfirmationTokenException();
         }
 
         confirmationTokenService.setConfirmedAt(token);
