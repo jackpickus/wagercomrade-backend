@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class ConfirmationTokenNotFoundAdvice {
+public class ConfirmationTokenExceptionAdvice {
 
     @ResponseBody
-    @ExceptionHandler(ConfirmationTokenNotFoundException.class)
+    @ExceptionHandler(ConfirmationTokenException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String confirmationToken(ConfirmationTokenNotFoundException ex) {
+    String confirmationTokenExpiredHandler(ConfirmationTokenException ex) {
         return ex.getMessage();
     }
     
