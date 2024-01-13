@@ -19,9 +19,11 @@ import com.jackbets.mybets.registration.token.ConfirmationTokenService;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class RegistrationService {
 
     private final ApplicationUserService applicationUserService;
@@ -132,26 +134,30 @@ public class RegistrationService {
         var confirmationToken = confirmationTokenService
                 .getToken(token)
                 .orElseThrow(() -> {
-                    // log error
+                    log.info("Confirmation Token not found " + token);
                     return new ConfirmationTokenException();
                 });
 
         if (confirmationToken.getConfirmedAt() != null) {
+            log.info("Confirmation Token already confirmed " + token);
             throw new ConfirmationTokenException();
         }
 
         if (!confirmationToken.isValid()) {
+            log.info("Confirmation is not valid " + token);
             throw new ConfirmationTokenException();
         }
 
         var expiredAt = confirmationToken.getExpiresAt();
         if (expiredAt.isBefore(LocalDateTime.now())) {
+            log.info("Confirmation Token has expired " + token);
             throw new ConfirmationTokenException();
         }
 
         confirmationTokenService.setConfirmedAt(token);
         var userIsEnabled = applicationUserService.enableAppUser(confirmationToken.getAppUser().getUsername());
         if (userIsEnabled) {
+            log.info("Confirm user account registration: " + confirmationToken.getAppUser().getUsername());
             return "registration confirmed";
         }
         return "registration failed";
