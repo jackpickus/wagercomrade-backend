@@ -12,10 +12,12 @@ import jakarta.mail.Message;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Aspect
 @Component
+@Slf4j
 public class MailAspect {
 
     @Autowired
@@ -39,12 +41,10 @@ public class MailAspect {
             try {
                 mailSender.send(preparator);
             } catch (MailException mailEx) {
-                // TODO: handle exception
-                System.err.println(mailEx.getMessage());
+                log.error("Failed to send confirmation sign up email", mailEx);
             }
-        } catch (AddressException ex) {
-            // TODO: handle exception
-            System.err.println(ex.getMessage());
+        } catch (AddressException addressEx) {
+            log.error("Failed to create email address. Format is bad.", addressEx);
         }
     }
 
