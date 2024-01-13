@@ -45,7 +45,7 @@ public class ApplicationUserService implements UserDetailsService{
         var userExists = applicationUserDao.selectApplicationUserByUsername(applicationUser.getUsername()).isPresent();
 
         if (userExists) {
-            throw new IllegalStateException("username already taken");
+            throw new UsernameExistsException(applicationUser.getUsername());
         }
 
         var encodedPassword = passwordEncoder.encode(applicationUser.getPassword());
