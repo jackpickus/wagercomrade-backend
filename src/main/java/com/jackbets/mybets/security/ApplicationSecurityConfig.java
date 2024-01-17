@@ -40,9 +40,10 @@ public class ApplicationSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
-                                .requestMatchers("api/v1/registration/**").permitAll()
-                                .requestMatchers(HttpMethod.GET).permitAll() // ! THIS IS ONLY FOR DEVELOPMENT
-                                .anyRequest().authenticated()
+                    .requestMatchers("api/v1/registration/**").permitAll()
+                    .requestMatchers(HttpMethod.GET).permitAll() // ! THIS IS ONLY FOR DEVELOPMENT
+                    .requestMatchers(HttpMethod.POST).permitAll() // ! THIS IS ONLY FOR DEVELOPMENT
+                    .anyRequest().authenticated()
                 )
                 .sessionManagement(management -> management
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -72,7 +73,8 @@ public class ApplicationSecurityConfig {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+		configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
