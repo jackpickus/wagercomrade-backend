@@ -50,7 +50,7 @@ public class WagerService {
         wager.setUser(appUser);
         Wager newWager = wagerRepository.save(wager);
 
-        return new Response(newWager.getId(), "Wager created successfully");
+        return new Response(newWager.getId(), "Wager created successfully", newWager.getTimePlaced());
     }
 
     public void deleteWager(Long wagerId) {
@@ -100,7 +100,7 @@ public class WagerService {
             }
         });
 
-        return new Response(wager.getId(), "Wager updated successfully");
+        return new Response(wager.getId(), "Wager updated successfully", wager.getTimePlaced());
     }
 
     public Wager getWager(Long wagerId) {
