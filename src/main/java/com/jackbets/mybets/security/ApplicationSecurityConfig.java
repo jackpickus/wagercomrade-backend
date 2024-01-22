@@ -43,6 +43,7 @@ public class ApplicationSecurityConfig {
                     .requestMatchers("api/v1/registration/**").permitAll()
                     .requestMatchers(HttpMethod.GET).permitAll() // ! THIS IS ONLY FOR DEVELOPMENT
                     .requestMatchers(HttpMethod.POST).permitAll() // ! THIS IS ONLY FOR DEVELOPMENT
+                    .requestMatchers(HttpMethod.PUT).permitAll() // ! THIS IS ONLY FOR DEVELOPMENT
                     .anyRequest().authenticated()
                 )
                 .sessionManagement(management -> management
