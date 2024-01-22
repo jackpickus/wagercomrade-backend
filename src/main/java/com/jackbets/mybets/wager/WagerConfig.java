@@ -28,7 +28,7 @@ public class WagerConfig {
                     1.1,
                     -110,
                     Status.WON,
-                    Instant.now().minus(45, ChronoUnit.MINUTES),
+                    Instant.now().minus(6, ChronoUnit.HOURS),
                 //     LocalDateTime.of(2022, Month.JULY, 2, 21, 30, 23),
                     1.0,
                     Category.NBA);
@@ -37,7 +37,7 @@ public class WagerConfig {
                     1,
                     200,
                     Status.LOST,
-                    Instant.now().minus(5, ChronoUnit.HOURS),
+                    Instant.now().minus(4, ChronoUnit.HOURS),
                 //     LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
                     2.0,
                     Category.MLB);
@@ -46,7 +46,7 @@ public class WagerConfig {
                     0.65,
                     154,
                     Status.VOID,
-                    Instant.now().minus(6, ChronoUnit.HOURS),
+                    Instant.now().minus(2, ChronoUnit.HOURS),
                 //     LocalDateTime.of(2022, Month.JULY, 11, 8, 15, 23),
                     1.0,
                     Category.MLB);
@@ -55,7 +55,7 @@ public class WagerConfig {
                     2.0,
                     100,
                     Status.PENDING,
-                    Instant.now().minus(8, ChronoUnit.HOURS),
+                    Instant.now(),
                 //     LocalDateTime.of(2022, Month.NOVEMBER, 13, 16, 43, 34),
                     2.0,
                     Category.CFB);
