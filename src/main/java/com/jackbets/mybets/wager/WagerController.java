@@ -1,6 +1,6 @@
 package com.jackbets.mybets.wager;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -64,10 +64,10 @@ public class WagerController {
 
     @PostMapping(path = "/new-wager")
     public Response placeNewWager(@RequestBody Wager wager) {
-        var localDateTime = LocalDateTime.now();
-        wager.setTimePlaced(localDateTime);
+        var wagerTimeStamp = Instant.now();
+        wager.setTimePlaced(wagerTimeStamp);
         wager.setStatus(Status.PENDING);
-        wager.setCategory(Category.COLLEGE_BASKETBALL); // This is placeholder!!
+        wager.setCategory(Category.NFL); // This is placeholder!!
         double toWin = wager.calcToWin(wager.getUnits(), wager.getTheOdds());
         wager.setToWin(toWin);
 

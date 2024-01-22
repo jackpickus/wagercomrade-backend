@@ -6,8 +6,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,14 +49,16 @@ class WagerServiceTest {
                 110,
                 -110,
                 Status.PENDING,
-                LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
+                Instant.now().minus(45, ChronoUnit.MINUTES),
+                // LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
                 100.0,
                 Category.NFL);
         wager2 = new Wager("Red Sox +1.5",
                 72.5,
                 -145,
                 Status.PENDING,
-                LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
+                Instant.now().minus(45, ChronoUnit.MINUTES),
+                // LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
                 50.0,
                 Category.MLB);
 

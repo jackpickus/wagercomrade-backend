@@ -2,8 +2,8 @@ package com.jackbets.mybets.repo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -32,7 +32,8 @@ class WagerRepositoryTest {
                 110,
                 -110,
                 Status.PENDING,
-                LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
+                    Instant.now().minus(45, ChronoUnit.MINUTES),
+                // LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
                 100.0,
                 Category.NFL);
     }
@@ -58,7 +59,8 @@ class WagerRepositoryTest {
                 100,
                 145,
                 Status.PENDING,
-                LocalDateTime.of(2022, Month.JULY, 4, 8, 15, 23),
+                Instant.now().minus(45, ChronoUnit.MINUTES),
+                // LocalDateTime.of(2022, Month.JULY, 4, 8, 15, 23),
                 145.0,
                 Category.MLB);
         Wager wager2 = new Wager(
@@ -66,7 +68,8 @@ class WagerRepositoryTest {
                 145,
                 -145,
                 Status.PENDING,
-                LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
+                Instant.now().minus(45, ChronoUnit.MINUTES),
+                // LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
                 100.0,
                 Category.MLB);
 
@@ -85,7 +88,8 @@ class WagerRepositoryTest {
                 72.5,
                 -145,
                 Status.PENDING,
-                LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
+                Instant.now().minus(45, ChronoUnit.MINUTES),
+                // LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
                 50.0,
                 Category.MLB);
 
@@ -103,7 +107,8 @@ class WagerRepositoryTest {
                 72.5,
                 -145,
                 Status.PENDING,
-                LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
+                Instant.now().minus(45, ChronoUnit.MINUTES),
+                // LocalDateTime.of(2022, Month.JULY, 4, 12, 15, 23),
                 50.0,
                 Category.MLB);
 
@@ -123,7 +128,8 @@ class WagerRepositoryTest {
                     72.5,
                     -145,
                     Status.PENDING,
-                    LocalDateTime.of(2022, Month.JULY, 4, count, 15, 23),
+                    Instant.now().minus(45, ChronoUnit.MINUTES),
+                    // LocalDateTime.of(2022, Month.JULY, 4, count, 15, 23),
                     50.0,
                     Category.MLB);
 

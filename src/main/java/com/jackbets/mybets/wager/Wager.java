@@ -1,6 +1,6 @@
 package com.jackbets.mybets.wager;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import com.jackbets.mybets.auth.ApplicationUser;
 import com.jackbets.mybets.category.Category;
 import com.jackbets.mybets.status.Status;
@@ -32,7 +32,7 @@ public class Wager {
     private @Getter @Setter double units;
     private @Getter @Setter Integer theOdds;
     private @Getter @Setter Status status;
-    private @Getter @Setter LocalDateTime timePlaced;
+    private @Getter @Setter Instant timePlaced;
     private @Getter @Setter Double toWin;
     private @Getter @Setter Category category;
 
@@ -44,7 +44,7 @@ public class Wager {
     public Wager() {
     }
 
-    public Wager(String theBet, double units, Integer theOdds, Status status, LocalDateTime timePlaced,
+    public Wager(String theBet, double units, Integer theOdds, Status status, Instant timePlaced,
             Double toWin, Category category) {
         this.theBet = theBet;
         this.units = units;

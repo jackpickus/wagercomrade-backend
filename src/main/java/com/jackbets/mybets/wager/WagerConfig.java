@@ -1,7 +1,7 @@
 package com.jackbets.mybets.wager;
 
-import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +28,8 @@ public class WagerConfig {
                     1.1,
                     -110,
                     Status.WON,
-                    LocalDateTime.of(2022, Month.JULY, 2, 21, 30, 23),
+                    Instant.now().minus(45, ChronoUnit.MINUTES),
+                //     LocalDateTime.of(2022, Month.JULY, 2, 21, 30, 23),
                     1.0,
                     Category.NBA);
             Wager bet2 = new Wager(
@@ -36,15 +37,17 @@ public class WagerConfig {
                     1,
                     200,
                     Status.LOST,
-                    LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
+                    Instant.now().minus(5, ChronoUnit.HOURS),
+                //     LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
                     2.0,
                     Category.MLB);
             Wager bet3 = new Wager(
                     "Oakland A\'s ML",
                     0.65,
                     154,
-                    Status.WON,
-                    LocalDateTime.of(2022, Month.JULY, 11, 8, 15, 23),
+                    Status.VOID,
+                    Instant.now().minus(6, ChronoUnit.HOURS),
+                //     LocalDateTime.of(2022, Month.JULY, 11, 8, 15, 23),
                     1.0,
                     Category.MLB);
             Wager bet4 = new Wager(
@@ -52,9 +55,10 @@ public class WagerConfig {
                     2.0,
                     100,
                     Status.PENDING,
-                    LocalDateTime.of(2022, Month.NOVEMBER, 13, 16, 43, 34),
+                    Instant.now().minus(8, ChronoUnit.HOURS),
+                //     LocalDateTime.of(2022, Month.NOVEMBER, 13, 16, 43, 34),
                     2.0,
-                    Category.NFL);
+                    Category.CFB);
 
             bet1.setUser(myGuy);
             bet2.setUser(myGuy);
