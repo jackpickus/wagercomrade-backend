@@ -6,8 +6,8 @@ public enum Category {
     NFL("NFL"),
     MLB("MLB"),
     NHL("NHL"),
-    COLLEGE_FOOTBALL("College Football"),
-    COLLEGE_BASKETBALL("College Basketball"),
+    CFB("CFB"),
+    CBB("CBB"),
     OTHER("Other");
 
     private String sport;
