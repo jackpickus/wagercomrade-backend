@@ -13,6 +13,7 @@ import com.jackbets.mybets.auth.ApplicationUserRepository;
 import com.jackbets.mybets.auth.ApplicationUserService;
 import com.jackbets.mybets.config.JwtService;
 import com.jackbets.mybets.mail.MailInfo;
+import com.jackbets.mybets.mail.SendEmailConfirmation;
 import com.jackbets.mybets.registration.token.ConfirmationToken;
 import com.jackbets.mybets.registration.token.ConfirmationTokenException;
 import com.jackbets.mybets.registration.token.ConfirmationTokenService;
@@ -104,8 +105,7 @@ public class RegistrationService {
 
     }
 
-    // TODO Enable emails
-    // @SendEmailConfirmation
+    @SendEmailConfirmation
     private MailInfo resendEmail(ApplicationUser appUser) {
         var usersTokensOptinal = confirmationTokenService.getUsersTokens(appUser); 
         if (usersTokensOptinal.isPresent()) {

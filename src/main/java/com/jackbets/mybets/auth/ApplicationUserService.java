@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jackbets.mybets.mail.MailInfo;
+import com.jackbets.mybets.mail.SendEmailConfirmation;
 import com.jackbets.mybets.registration.token.ConfirmationToken;
 import com.jackbets.mybets.registration.token.ConfirmationTokenService;
 
@@ -38,8 +39,7 @@ public class ApplicationUserService implements UserDetailsService{
                 new UsernameNotFoundException(String.format("Username %s not found", username)));
     }
 
-    // TODO Enable emails
-    // @SendEmailConfirmation
+    @SendEmailConfirmation
     public MailInfo signUpUser(ApplicationUser applicationUser) {
 
         var userExists = applicationUserDao.selectApplicationUserByUsername(applicationUser.getUsername()).isPresent();
