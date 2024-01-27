@@ -1,6 +1,7 @@
 package com.jackbets.mybets.auth;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -57,8 +58,8 @@ public class ApplicationUserService implements UserDetailsService{
         var token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(
             token,
-            LocalDateTime.now(),
-            LocalDateTime.now().plusMinutes(15), // should put num in config file
+            Instant.now(),
+            Instant.now().plus(15, ChronoUnit.MINUTES), // should put num in config file
             applicationUser 
         );
 

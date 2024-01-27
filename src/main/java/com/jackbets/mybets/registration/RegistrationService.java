@@ -1,6 +1,7 @@
 package com.jackbets.mybets.registration;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -112,7 +113,7 @@ public class RegistrationService {
             var usersTokensList = usersTokensOptinal.get();
             for (ConfirmationToken cToken : usersTokensList) {
                 var expiredAt = cToken.getExpiresAt();
-                if (expiredAt.isAfter(LocalDateTime.now())) {
+                if (expiredAt.isAfter(Instant.now())) {
                     cToken.setValid(false);
                 }
             }
@@ -120,8 +121,8 @@ public class RegistrationService {
         var token = UUID.randomUUID().toString();
         var confirmationToken = new ConfirmationToken(
             token,
-            LocalDateTime.now(),
-            LocalDateTime.now().plusMinutes(15), // should put num in config file
+            Instant.now(),
+            Instant.now().plus(15, ChronoUnit.MINUTES),
             appUser 
         );
         confirmationTokenService.saveConfirmationToken(confirmationToken);
@@ -149,7 +150,7 @@ public class RegistrationService {
         }
 
         var expiredAt = confirmationToken.getExpiresAt();
-        if (expiredAt.isBefore(LocalDateTime.now())) {
+        if (expiredAt.isBefore(Instant.now())) {
             log.info("Confirmation Token has expired " + token);
             throw new ConfirmationTokenException();
         }

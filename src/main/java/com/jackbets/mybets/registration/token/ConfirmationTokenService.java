@@ -1,6 +1,6 @@
 package com.jackbets.mybets.registration.token;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +28,7 @@ public class ConfirmationTokenService {
         var confirmationTokenOptional = getToken(token);
         if (confirmationTokenOptional.isPresent()) {
             var confirmationToken = confirmationTokenOptional.get();
-            confirmationToken.setConfirmedAt(LocalDateTime.now());
+            confirmationToken.setConfirmedAt(Instant.now());
             confirmationToken.setValid(false);
         }
     }

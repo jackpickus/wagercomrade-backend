@@ -1,6 +1,6 @@
 package com.jackbets.mybets.registration.token;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import com.jackbets.mybets.auth.ApplicationUser;
 
@@ -32,15 +32,15 @@ public class ConfirmationToken {
     private String token;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @Column(nullable = false)
-    private LocalDateTime expiresAt;
+    private Instant expiresAt;
 
     @Column(nullable = false)
     private boolean isValid;
 
-    private LocalDateTime confirmedAt;
+    private Instant confirmedAt;
 
     @ManyToOne
     @JoinColumn(
@@ -50,8 +50,8 @@ public class ConfirmationToken {
     private ApplicationUser appUser;
 
     public ConfirmationToken(String token,
-                            LocalDateTime createdAt,
-                            LocalDateTime expiresAt,
+                            Instant createdAt,
+                            Instant expiresAt,
                             ApplicationUser appUser) {
         this.token = token;
         this.createdAt = createdAt;
