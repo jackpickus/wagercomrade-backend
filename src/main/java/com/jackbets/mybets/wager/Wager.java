@@ -37,6 +37,7 @@ public class Wager {
     private @Getter @Setter Category category;
 
     @Setter
+    @Getter
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
     private ApplicationUser user;
