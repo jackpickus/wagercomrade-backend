@@ -79,7 +79,7 @@ class WagerServiceTest {
     @Test
     public void givenWagerToAddShouldReturnAddedWager() {
         when(wagerRepository.save(any())).thenReturn(wager1);
-        wagerService.addNewWager(wager1);
+        wagerService.addNewWager(wager1, "username");
         verify(wagerRepository, times(1)).save(any());
     }
 
@@ -99,8 +99,8 @@ class WagerServiceTest {
     public void givenIdThenShouldDeleteWager() {
         wagerRepository.save(wager1);
         Long wager1Id = wager1.getId();
-        wagerService2.deleteWager(wager1Id);
-        verify(wagerService2, times(1)).deleteWager(wager1Id);
+        wagerService2.deleteWager(wager1Id, "username");
+        verify(wagerService2, times(1)).deleteWager(wager1Id, "username");
         verify(wagerRepository, times(1)).save(wager1);
 
     }

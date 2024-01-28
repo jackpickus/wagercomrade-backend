@@ -34,16 +34,20 @@ public class WagerController {
     }
 
     @GetMapping({"/wagerlist", "/"})
-    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<Wager> getUsersWagers() {
-        // THIS NEEDS TO BE ALTERED!!
-        var wagers = wagerService.getUsersWagers("user");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var loggedInUser = auth.getName();
+        var wagers = wagerService.getUsersWagers(loggedInUser);
         return wagers;
     }
 
     @GetMapping("/{wagerId}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public Wager getWager(@PathVariable("wagerId") Long wagerId) {
-        var wager = wagerService.getWager(wagerId);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var loggedInUser = auth.getName();
+        var wager = wagerService.getWager(wagerId, loggedInUser);
         return wager;
     }
 
@@ -63,26 +67,35 @@ public class WagerController {
     }
 
     @PostMapping(path = "/new-wager")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public Response placeNewWager(@RequestBody Wager wager) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var loggedInUser = auth.getName();
+
         var wagerTimeStamp = Instant.now();
         wager.setTimePlaced(wagerTimeStamp);
         wager.setStatus(Status.PENDING);
-        wager.setCategory(Category.NFL); // This is placeholder!!
         double toWin = wager.calcToWin(wager.getUnits(), wager.getTheOdds());
         wager.setToWin(toWin);
 
-        return wagerService.addNewWager(wager);
+        return wagerService.addNewWager(wager, loggedInUser);
     }
 
     @DeleteMapping(path = "/{wagerId}")
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public void deleteWager(@PathVariable("wagerId") Long wagerId) {
-        wagerService.deleteWager(wagerId);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var loggedInUser = auth.getName();
+
+        wagerService.deleteWager(wagerId, loggedInUser);
     }
 
     @PutMapping(path = "/edit/{wagerId}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public Response updateWager(@PathVariable("wagerId") Long wagerId, @RequestBody Wager updatedWager) {
-        var oldWager = wagerService.getWager(wagerId);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        var loggedInUser = auth.getName();
+        var oldWager = wagerService.getWager(wagerId, loggedInUser);
         var hashMap = new HashMap<String, String>();
         var oddsChanged = false;
         var unitsChanged = false;

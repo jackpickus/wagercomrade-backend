@@ -2,7 +2,6 @@ package com.jackbets.mybets.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -41,9 +40,6 @@ public class ApplicationSecurityConfig {
                 .cors(withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
                     .requestMatchers("api/v1/registration/**").permitAll()
-                    .requestMatchers(HttpMethod.GET).permitAll() // ! THIS IS ONLY FOR DEVELOPMENT
-                    .requestMatchers(HttpMethod.POST).permitAll() // ! THIS IS ONLY FOR DEVELOPMENT
-                    .requestMatchers(HttpMethod.PUT).permitAll() // ! THIS IS ONLY FOR DEVELOPMENT
                     .anyRequest().authenticated()
                 )
                 .sessionManagement(management -> management

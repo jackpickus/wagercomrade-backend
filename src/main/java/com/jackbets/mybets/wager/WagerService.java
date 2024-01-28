@@ -2,8 +2,12 @@ package com.jackbets.mybets.wager;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.jackbets.mybets.auth.AppUserRole;
 import com.jackbets.mybets.auth.ApplicationUser;
 import com.jackbets.mybets.auth.ApplicationUserRepository;
 import com.jackbets.mybets.category.Category;
@@ -26,11 +30,11 @@ public class WagerService {
     }
 
     public List<Wager> getUsersWagers(String username) {
-        // ApplicationUser appUser = appUserRepository.findByUsername(username)
-        //     .orElseThrow(() -> new IllegalArgumentException()); 
+        ApplicationUser appUser = appUserRepository.findByUsername(username)
+            .orElseThrow(() -> new IllegalArgumentException()); 
 
-        // var wagers = appUserRepository.getUsersWagers(appUser); 
-        return wagerRepository.findAll();
+        var wagers = appUserRepository.getUsersWagers(appUser); 
+        return wagers;
     }
 
     public List<Wager> getWagersWithCategory(String username, Category category) {
@@ -42,10 +46,9 @@ public class WagerService {
 
     }
 
-    public Response addNewWager(Wager wager) {
-        System.out.println("New wager\'s date: " + wager.getTimePlaced());
-
-        var appUser = appUserRepository.getReferenceById(1L); // This is dummy data and must be removed!!
+    public Response addNewWager(Wager wager, String username) {
+        ApplicationUser appUser = appUserRepository.findByUsername(username)
+            .orElseThrow(() -> new IllegalArgumentException());
 
         wager.setUser(appUser);
         Wager newWager = wagerRepository.save(wager);
@@ -53,12 +56,21 @@ public class WagerService {
         return new Response(newWager.getId(), "Wager created successfully", newWager.getTimePlaced());
     }
 
-    public void deleteWager(Long wagerId) {
+    public void deleteWager(Long wagerId, String username) {
+        ApplicationUser appUser = appUserRepository.findByUsername(username)
+            .orElseThrow(() -> new IllegalArgumentException());
+
         boolean exists = wagerRepository.existsById(wagerId);
         if (!exists) {
             throw new WagerNotFoundException(wagerId);
         }
-        wagerRepository.deleteById(wagerId);
+
+        var wagerOptional = wagerRepository.findById(wagerId);
+        var wagersUser = wagerOptional.get().getUser();
+        if (Objects.equals(wagersUser.getId(), appUser.getId()) || appUser.getAppUserRole().equals(AppUserRole.ROLE_ADMIN)) {
+            wagerRepository.deleteById(wagerId);
+        }
+        throw new IllegalStateException("Not users wager to delete!");
     }
 
     @Transactional
@@ -103,10 +115,19 @@ public class WagerService {
         return new Response(wager.getId(), "Wager updated successfully", wager.getTimePlaced());
     }
 
-    public Wager getWager(Long wagerId) {
+    public Wager getWager(Long wagerId, String username) {
+        ApplicationUser appUser = appUserRepository.findByUsername(username)
+            .orElseThrow(
+                () -> new UsernameNotFoundException(String.format("Username \'%s\' not found", username))
+            ); 
+
         Wager wager = wagerRepository.findById(wagerId)
                 .orElseThrow(() -> new WagerNotFoundException(wagerId));
-        return wager;
+        if (Objects.equals(wager.getId(), appUser.getId()) || appUser.getAppUserRole().equals(AppUserRole.ROLE_ADMIN)) {
+            return wager;
+        }
+
+        throw new IllegalStateException("Not users wager!");
     }
 
 }
