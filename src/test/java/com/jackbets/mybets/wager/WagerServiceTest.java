@@ -1,7 +1,9 @@
 package com.jackbets.mybets.wager;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -77,7 +79,9 @@ class WagerServiceTest {
 
     @Test
     void getWagersWithCategory() {
-
+        when(appUserRepo.findByUsername(anyString())).thenReturn(Optional.of(testUser));
+        wagerService.getWagersWithCategory("test_user", Category.NFL);
+        verify(appUserRepo).getUsersWagersWithCategory(eq(testUser), eq(Category.NFL));
     }
 
     @Test
