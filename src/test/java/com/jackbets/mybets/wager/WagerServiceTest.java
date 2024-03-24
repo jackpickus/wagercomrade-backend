@@ -69,8 +69,10 @@ class WagerServiceTest {
     }
 
     @Test
-    void getUserWagers() {
-
+    void canGetAllOfUserWagers() {
+        when(appUserRepo.findByUsername(anyString())).thenReturn(Optional.of(testUser));
+        wagerService.getUsersWagers("test_user");
+        verify(appUserRepo).getUsersWagers(testUser);
     }
 
     @Test
