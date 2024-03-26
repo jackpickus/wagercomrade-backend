@@ -85,8 +85,18 @@ class WagerServiceTest {
     }
 
     @Test
-    void addNewWager() {
-
+    void canAddNewWager() {
+        var wager2 = new Wager("Cubs ML",
+                100,
+                120,
+                Status.PENDING,
+                Instant.now().minus(30, ChronoUnit.MINUTES),
+                120.0,
+                Category.MLB);
+        when(appUserRepo.findByUsername(anyString())).thenReturn(Optional.of(testUser));
+        when(wagerRepository.save(wager2)).thenReturn(wager2);
+        wagerService.addNewWager(wager2, "test_user");
+        verify(wagerRepository).save(eq(wager2));
     }
 
     @Test
