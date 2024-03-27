@@ -1,14 +1,12 @@
 package com.jackbets.mybets.wager;
 
 import java.time.Instant;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,17 +51,12 @@ public class WagerController {
 
     @GetMapping("/wagerlist/{category}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public String getWagersWithCategory(@PathVariable("category") String category, Model model) {
+    public List<Wager> getWagersWithCategory(@PathVariable("category") String category) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         var loggedInUser = auth.getName();
-
         var enumCategory = Category.valueOf(category.toUpperCase());
         var wagers = wagerService.getWagersWithCategory(loggedInUser, enumCategory);
-
-        model.addAttribute("wagers", wagers);
-        model.addAttribute("byTimePlaced", Comparator.comparing(Wager::getTimePlaced).reversed());
-       
-        return "list-wagers";
+        return wagers;
     }
 
     @PostMapping(path = "/new-wager")
