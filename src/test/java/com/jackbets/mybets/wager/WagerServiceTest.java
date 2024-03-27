@@ -1,5 +1,6 @@
 package com.jackbets.mybets.wager;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -108,7 +110,11 @@ class WagerServiceTest {
     }
 
     @Test
-    void updateWager() {
-
+    void canUpdateWagerStatus() {
+        when(wagerRepository.findById(anyLong())).thenReturn(Optional.of(wager1));
+        HashMap<String, String> updates = new HashMap<>();
+        updates.put("status", "WON");
+        wagerService.updateWager(1L, updates);
+        assertEquals(Status.WON, wager1.getStatus());
     }
 }
