@@ -46,7 +46,6 @@ public class ApplicationUserRepositoryTest {
                 -110,
                 Status.PENDING,
                 Instant.now().minus(45, ChronoUnit.MINUTES),
-                // LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
                 100.0,
                 Category.NFL);
         wager2 = new Wager("Cubs ML",
@@ -54,7 +53,6 @@ public class ApplicationUserRepositoryTest {
                 120,
                 Status.PENDING,
                 Instant.now().minus(40, ChronoUnit.MINUTES),
-                // LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
                 120.0,
                 Category.MLB);
         wager1.setUser(testUser);
