@@ -69,8 +69,9 @@ public class WagerService {
         var wagersUser = wagerOptional.get().getUser();
         if (Objects.equals(wagersUser.getId(), appUser.getId()) || appUser.getAppUserRole().equals(AppUserRole.ROLE_ADMIN)) {
             wagerRepository.deleteById(wagerId);
+        } else {
+            throw new IllegalStateException("Not users wager to delete!");
         }
-        throw new IllegalStateException("Not users wager to delete!");
     }
 
     @Transactional
