@@ -1,6 +1,5 @@
 package com.jackbets.mybets.wager;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -56,7 +55,6 @@ class WagerServiceTest {
                 -110,
                 Status.PENDING,
                 Instant.now().minus(45, ChronoUnit.MINUTES),
-                // LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
                 100.0,
                 Category.NFL);
         wager1.setUser(testUser);
@@ -100,8 +98,13 @@ class WagerServiceTest {
     }
 
     @Test
-    void deleteWager() {
-
+    void canDeleteWager() {
+        when(appUserRepo.findByUsername(anyString())).thenReturn(Optional.of(testUser));
+        when(wagerRepository.existsById(anyLong())).thenReturn(true);
+        when(wagerRepository.findById(anyLong())).thenReturn(Optional.of(wager1));
+        testUser.setId(1L);
+        wagerService.deleteWager(1L, "test_user");
+        verify(wagerRepository).deleteById(anyLong());
     }
 
     @Test
