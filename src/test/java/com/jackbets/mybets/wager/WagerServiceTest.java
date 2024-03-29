@@ -1,6 +1,7 @@
 package com.jackbets.mybets.wager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -38,6 +39,7 @@ class WagerServiceTest {
     private Wager wager1;
 
     private ApplicationUser testUser;
+    private ApplicationUser testUser2;
 
     @BeforeEach
     void setUp() {
@@ -48,6 +50,15 @@ class WagerServiceTest {
             "test",
             "test_user",
             "test@test.com",
+            true,
+            true,
+            true,
+            true);
+        testUser2 = new ApplicationUser(
+            AppUserRole.ROLE_USER,
+            "test",
+            "test_user2",
+            "test2@test.com",
             true,
             true,
             true,
@@ -68,6 +79,15 @@ class WagerServiceTest {
         when(wagerRepository.findById(anyLong())).thenReturn(Optional.of(wager1));
         wagerService.getWager(1L, anyString());
         verify(wagerRepository).findById(1L);
+    }
+
+    @Test
+    void cannotGetWager() {
+        when(appUserRepo.findByUsername(anyString())).thenReturn(Optional.of(testUser2));
+        when(wagerRepository.findById(anyLong())).thenReturn(Optional.of(wager1));
+        testUser2.setId(2L);
+        assertThrows(IllegalStateException.class, () ->
+            wagerService.getWager(1L, "test_user2"));
     }
 
     @Test
@@ -110,11 +130,25 @@ class WagerServiceTest {
     }
 
     @Test
+    void cannotDeleteWager() {
+        when(appUserRepo.findByUsername(anyString())).thenReturn(Optional.of(testUser2));
+        when(wagerRepository.existsById(anyLong())).thenReturn(true);
+        when(wagerRepository.findById(anyLong())).thenReturn(Optional.of(wager1));
+        testUser2.setId(2L);
+        assertThrows(IllegalStateException.class, () ->
+            wagerService.deleteWager(1L, "test_user2"));
+    }
+
+    @Test
     void canUpdateWagerStatus() {
         when(wagerRepository.findById(anyLong())).thenReturn(Optional.of(wager1));
         HashMap<String, String> updates = new HashMap<>();
         updates.put("status", "WON");
+        updates.put("theBet", "49ers -7");
+        updates.put("theOdds", "-120");
         wagerService.updateWager(1L, updates);
         assertEquals(Status.WON, wager1.getStatus());
+        assertEquals("49ers -7", wager1.getTheBet());
+        assertEquals(-120, wager1.getTheOdds());
     }
 }
