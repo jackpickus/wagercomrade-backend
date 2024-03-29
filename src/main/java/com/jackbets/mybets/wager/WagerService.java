@@ -31,7 +31,7 @@ public class WagerService {
 
     public List<Wager> getUsersWagers(String username) {
         ApplicationUser appUser = appUserRepository.findByUsername(username)
-            .orElseThrow(() -> new IllegalArgumentException()); 
+            .orElseThrow(() -> new UsernameNotFoundException(username)); 
 
         var wagers = appUserRepository.getUsersWagers(appUser); 
         return wagers;
@@ -39,7 +39,7 @@ public class WagerService {
 
     public List<Wager> getWagersWithCategory(String username, Category category) {
         ApplicationUser appUser = appUserRepository.findByUsername(username)
-            .orElseThrow(() -> new IllegalArgumentException()); 
+            .orElseThrow(() -> new UsernameNotFoundException(username)); 
 
         var wagers = appUserRepository.getUsersWagersWithCategory(appUser, category); 
         return wagers;
@@ -48,7 +48,7 @@ public class WagerService {
 
     public Response addNewWager(Wager wager, String username) {
         ApplicationUser appUser = appUserRepository.findByUsername(username)
-            .orElseThrow(() -> new IllegalArgumentException());
+            .orElseThrow(() -> new UsernameNotFoundException(username));
 
         wager.setUser(appUser);
         Wager newWager = wagerRepository.save(wager);
@@ -58,7 +58,7 @@ public class WagerService {
 
     public void deleteWager(Long wagerId, String username) {
         ApplicationUser appUser = appUserRepository.findByUsername(username)
-            .orElseThrow(() -> new IllegalArgumentException());
+            .orElseThrow(() -> new UsernameNotFoundException(username));
 
         boolean exists = wagerRepository.existsById(wagerId);
         if (!exists) {
