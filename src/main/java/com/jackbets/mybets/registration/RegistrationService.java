@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.jackbets.mybets.auth.AppUserRole;
@@ -75,7 +76,12 @@ public class RegistrationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var appUser = applicationUserRepository.findByUsername(request.username());
-        boolean appUserIsEnabled = appUser.get().isEnabled();
+        var appUserIsEnabled = false;
+        if (appUser.isPresent()) {
+           appUserIsEnabled = appUser.get().isEnabled();
+        } else {
+            throw new UsernameNotFoundException("User could not be found");
+        }
 
         if (!appUserIsEnabled) {
             resendEmail(appUser.get());
