@@ -2,6 +2,7 @@ package com.jackbets.mybets.wager;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,30 +35,68 @@ public class WagerController {
 
     @GetMapping({"/wagerlist", "/"})
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public List<Wager> getUsersWagers() {
+    public List<WagerResponse> getUsersWagers() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         var loggedInUser = auth.getName();
         var wagers = wagerService.getUsersWagers(loggedInUser);
-        return wagers;
+        List<WagerResponse> wagerResponse = new ArrayList<>();
+        for (Wager ogWager : wagers) {
+            var response = WagerResponse.builder()
+                .id(ogWager.getId())
+                .theBet(ogWager.getTheBet())
+                .category(ogWager.getCategory())
+                .theOdds(ogWager.getTheOdds())
+                .units(ogWager.getUnits())
+                .status(ogWager.getStatus())
+                .timePlaced(ogWager.getTimePlaced())
+                .toWin(ogWager.getToWin())
+                .build();
+            wagerResponse.add(response);
+        }
+        return wagerResponse;
     }
 
     @GetMapping("/{wagerId}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public Wager getWager(@PathVariable("wagerId") Long wagerId) {
+    public WagerResponse getWager(@PathVariable("wagerId") Long wagerId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         var loggedInUser = auth.getName();
-        var wager = wagerService.getWager(wagerId, loggedInUser);
-        return wager;
+        var ogWager = wagerService.getWager(wagerId, loggedInUser);
+        var wagerResponse = WagerResponse.builder()
+                .id(ogWager.getId())
+                .theBet(ogWager.getTheBet())
+                .category(ogWager.getCategory())
+                .theOdds(ogWager.getTheOdds())
+                .units(ogWager.getUnits())
+                .status(ogWager.getStatus())
+                .timePlaced(ogWager.getTimePlaced())
+                .toWin(ogWager.getToWin())
+                .build();
+        return wagerResponse;
     }
 
     @GetMapping("/wagerlist/{category}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public List<Wager> getWagersWithCategory(@PathVariable("category") String category) {
+    public List<WagerResponse> getWagersWithCategory(@PathVariable("category") String category) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         var loggedInUser = auth.getName();
         var enumCategory = Category.valueOf(category.toUpperCase());
         var wagers = wagerService.getWagersWithCategory(loggedInUser, enumCategory);
-        return wagers;
+        List<WagerResponse> wagerResponse = new ArrayList<>();
+        for (Wager ogWager : wagers) {
+            var response = WagerResponse.builder()
+                .id(ogWager.getId())
+                .theBet(ogWager.getTheBet())
+                .category(ogWager.getCategory())
+                .theOdds(ogWager.getTheOdds())
+                .units(ogWager.getUnits())
+                .status(ogWager.getStatus())
+                .timePlaced(ogWager.getTimePlaced())
+                .toWin(ogWager.getToWin())
+                .build();
+            wagerResponse.add(response);
+        }
+        return wagerResponse;
     }
 
     @PostMapping(path = "/new-wager")
