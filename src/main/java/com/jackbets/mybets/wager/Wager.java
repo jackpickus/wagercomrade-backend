@@ -1,5 +1,8 @@
 package com.jackbets.mybets.wager;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.Instant;
 import com.jackbets.mybets.auth.ApplicationUser;
 import com.jackbets.mybets.category.Category;
@@ -29,11 +32,11 @@ public class Wager {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wager_sequence")
     private @Getter @Setter Long id;
     private @Getter @Setter String theBet;
-    private @Getter @Setter double units;
-    private @Getter @Setter Integer theOdds;
+    private @Getter @Setter BigDecimal units;
+    private @Getter @Setter int theOdds;
     private @Getter @Setter Status status;
     private @Getter @Setter Instant timePlaced;
-    private @Getter @Setter Double toWin;
+    private @Getter @Setter BigDecimal toWin;
     private @Getter @Setter Category category;
 
     @Setter
@@ -45,8 +48,8 @@ public class Wager {
     public Wager() {
     }
 
-    public Wager(String theBet, double units, Integer theOdds, Status status, Instant timePlaced,
-            Double toWin, Category category) {
+    public Wager(String theBet, BigDecimal units, Integer theOdds, Status status, Instant timePlaced,
+            BigDecimal toWin, Category category) {
         this.theBet = theBet;
         this.units = units;
         this.theOdds = theOdds;
@@ -56,24 +59,32 @@ public class Wager {
         this.category = category;
     }
 
-    double calcToWin(double units, int odds) {
-        double amount;
-        if (units < 0.1) {
+    BigDecimal calcToWin(BigDecimal units, int odds) {
+        BigDecimal amount;
+        BigDecimal dime = new BigDecimal(0.1);
+        if (units.compareTo(dime) < 0) {
             log.error("units must be greater than 0.1");
-            return -1;
+            return new BigDecimal(-1);
         } else if (odds < 100 && odds > -100) {
             log.error("odds must be greater than 99 or less than -100");
-            return -1;
+            return new BigDecimal(-1);
         }
     
+        BigDecimal bdOdds = new BigDecimal(odds);
+        BigDecimal oneH = new BigDecimal(100.0);
         if (odds >= 100) {
             // wager was on underdog
-            amount = units * (odds / 100.0);
+            BigDecimal multiplier = bdOdds.divide(oneH);
+            amount = units.multiply(multiplier);
         } else {
             // wager was negative odds, chose favorite
-            amount = units * (100.0 / (odds * -1.0));
+            BigDecimal negOne = new BigDecimal(-1.0);
+            BigDecimal multiplier1 = bdOdds.multiply(negOne);
+            BigDecimal divide = oneH.divide(multiplier1);
+            amount = units.multiply(divide);
         }
-        double roundedAmount = Math.round(amount * 100.0) / 100.0;
+        BigDecimal roundedAmount = amount
+            .round(new MathContext(2, RoundingMode.HALF_EVEN));
         log.info("Risking " + units + " to win " + amount);
         log.info("Odds: " + odds);
         return roundedAmount;

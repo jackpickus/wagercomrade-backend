@@ -1,5 +1,6 @@
 package com.jackbets.mybets.wager;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +69,7 @@ public class WagerController {
         var wagerTimeStamp = Instant.now();
         wager.setTimePlaced(wagerTimeStamp);
         wager.setStatus(Status.PENDING);
-        double toWin = wager.calcToWin(wager.getUnits(), wager.getTheOdds());
+        BigDecimal toWin = wager.calcToWin(wager.getUnits(), wager.getTheOdds());
         wager.setToWin(toWin);
 
         return wagerService.addNewWager(wager, loggedInUser);
@@ -98,7 +99,7 @@ public class WagerController {
         }
         if (oldWager.getTheOdds() != updatedWager.getTheOdds()) {
             oddsChanged = true;
-            hashMap.put("theOdds", updatedWager.getTheOdds().toString());
+            hashMap.put("theOdds", String.valueOf(updatedWager.getTheOdds()));
         }
         if (oldWager.getUnits() != updatedWager.getUnits()) {
             unitsChanged = true;
@@ -112,15 +113,15 @@ public class WagerController {
             hashMap.put("category", updatedWager.getCategory().toString());
         }
         if (oddsChanged && unitsChanged) {
-            double toWin = updatedWager.calcToWin(updatedWager.getUnits(), updatedWager.getTheOdds());
+            BigDecimal toWin = updatedWager.calcToWin(updatedWager.getUnits(), updatedWager.getTheOdds());
             String toWinString = String.valueOf(toWin);
             hashMap.put("toWin", toWinString);
         } else if (oddsChanged) {
-            double toWin = updatedWager.calcToWin(oldWager.getUnits(), updatedWager.getTheOdds());
+            BigDecimal toWin = updatedWager.calcToWin(oldWager.getUnits(), updatedWager.getTheOdds());
             String toWinString = String.valueOf(toWin);
             hashMap.put("toWin", toWinString);
         } else if (unitsChanged) {
-            double toWin = updatedWager.calcToWin(updatedWager.getUnits(), oldWager.getTheOdds());
+            BigDecimal toWin = updatedWager.calcToWin(updatedWager.getUnits(), oldWager.getTheOdds());
             String toWinString = String.valueOf(toWin);
             hashMap.put("toWin", toWinString);
 
