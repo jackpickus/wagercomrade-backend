@@ -1,5 +1,6 @@
 package com.jackbets.mybets.wager;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -25,39 +26,35 @@ public class WagerConfig {
 
             Wager bet1 = new Wager(
                     "Bulls -5",
-                    1.1,
+                    new BigDecimal(1.1),
                     -110,
                     Status.WON,
                     Instant.now().minus(6, ChronoUnit.HOURS),
-                //     LocalDateTime.of(2022, Month.JULY, 2, 21, 30, 23),
-                    1.0,
+                    new BigDecimal(1.0),
                     Category.NBA);
             Wager bet2 = new Wager(
                     "Cubs ML",
-                    1,
+                    new BigDecimal(1),
                     200,
                     Status.LOST,
                     Instant.now().minus(4, ChronoUnit.HOURS),
-                //     LocalDateTime.of(2022, Month.JULY, 2, 8, 15, 23),
-                    2.0,
+                    new BigDecimal(2.0),
                     Category.MLB);
             Wager bet3 = new Wager(
                     "Oakland A\'s ML",
-                    0.65,
+                    new BigDecimal(0.65),
                     154,
                     Status.VOID,
                     Instant.now().minus(2, ChronoUnit.HOURS),
-                //     LocalDateTime.of(2022, Month.JULY, 11, 8, 15, 23),
-                    1.0,
+                    new BigDecimal(1.0),
                     Category.MLB);
             Wager bet4 = new Wager(
                     "Tennessee/Missouri O69",
-                    2.0,
+                    new BigDecimal(2.0),
                     100,
                     Status.PENDING,
                     Instant.now(),
-                //     LocalDateTime.of(2022, Month.NOVEMBER, 13, 16, 43, 34),
-                    2.0,
+                    new BigDecimal(2.0),
                     Category.CFB);
 
             bet1.setUser(myGuy);

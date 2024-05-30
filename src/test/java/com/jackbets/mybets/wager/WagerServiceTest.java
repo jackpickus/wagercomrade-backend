@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -64,11 +65,11 @@ class WagerServiceTest {
             true,
             true);
         wager1 = new Wager("Bears +3.5",
-                110,
+                new BigDecimal(110),
                 -110,
                 Status.PENDING,
                 Instant.now().minus(45, ChronoUnit.MINUTES),
-                100.0,
+                new BigDecimal(100.0),
                 Category.NFL);
         wager1.setUser(testUser);
     }
@@ -107,11 +108,11 @@ class WagerServiceTest {
     @Test
     void canAddNewWager() {
         var wager2 = new Wager("Cubs ML",
-                100,
+                new BigDecimal(100),
                 120,
                 Status.PENDING,
                 Instant.now().minus(30, ChronoUnit.MINUTES),
-                120.0,
+                new BigDecimal(120.0),
                 Category.MLB);
         when(appUserRepo.findByUsername(anyString())).thenReturn(Optional.of(testUser));
         when(wagerRepository.save(wager2)).thenReturn(wager2);

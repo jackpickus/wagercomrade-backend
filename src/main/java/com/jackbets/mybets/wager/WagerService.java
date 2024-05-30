@@ -1,5 +1,6 @@
 package com.jackbets.mybets.wager;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -92,7 +93,7 @@ public class WagerService {
                     break;
 
                 case "units":
-                    Double newUnits = Double.parseDouble(value);
+                    BigDecimal newUnits = new BigDecimal(value);
                     wager.setUnits(newUnits);
                     break;
 
@@ -107,7 +108,7 @@ public class WagerService {
                     break;
 
                 case "toWin":
-                    Double newToWin = Double.parseDouble(value);
+                    BigDecimal newToWin = new BigDecimal(value);
                     wager.setToWin(newToWin);
                     break;
             }

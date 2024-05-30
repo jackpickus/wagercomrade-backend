@@ -2,6 +2,7 @@ package com.jackbets.mybets.auth;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -42,18 +43,18 @@ public class ApplicationUserRepositoryTest {
             true,
             true);
         wager1 = new Wager("Bears +3.5",
-                110,
+                new BigDecimal(110),
                 -110,
                 Status.PENDING,
                 Instant.now().minus(45, ChronoUnit.MINUTES),
-                100.0,
+                new BigDecimal(100.0),
                 Category.NFL);
         wager2 = new Wager("Cubs ML",
-                100,
+                new BigDecimal(100),
                 120,
                 Status.PENDING,
                 Instant.now().minus(40, ChronoUnit.MINUTES),
-                120.0,
+                new BigDecimal(120.0),
                 Category.MLB);
         wager1.setUser(testUser);
         wager2.setUser(testUser);
