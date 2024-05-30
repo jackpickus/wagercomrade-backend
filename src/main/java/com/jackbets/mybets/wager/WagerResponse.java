@@ -12,9 +12,9 @@ import lombok.Builder;
 @Builder
 public record WagerResponse(
     Long id,
-    String betTitle,
+    String theBet,
     BigDecimal units,
-    int odds,
+    int theOdds,
     Status status,
     Instant timePlaced,
     BigDecimal toWin,
@@ -22,9 +22,9 @@ public record WagerResponse(
 
         public WagerResponse {
             Objects.requireNonNull(id);
-            Objects.requireNonNull(betTitle);
+            Objects.requireNonNull(theBet);
             Objects.requireNonNull(units);
-            Objects.requireNonNull(odds);
+            Objects.requireNonNull(theOdds);
             Objects.requireNonNull(status);
             Objects.requireNonNull(timePlaced);
             Objects.requireNonNull(toWin);
